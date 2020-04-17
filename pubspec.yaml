@@ -54,7 +54,7 @@ dependencies:
   flutter_bloc: ^3.2.0
 
   #Date time format
-  intl: ^0.16.1
+  intl: ^0.16.0
 
   # https://pub.dev/packages/dart_extensions
   dart_extensions: 1.0.0
@@ -131,6 +131,7 @@ dependencies:
 
 dependency_overrides:
   rxdart: ^0.24.0
+  intl: ^0.16.0
 
 dev_dependencies:
   flutter_test:
