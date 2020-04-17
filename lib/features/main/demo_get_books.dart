@@ -52,5 +52,7 @@ class BooksScreen extends StatelessWidget {
     BookRepository bookRepository = BookRepository(apiServiceInstance);
     var books = await bookRepository.getBooks();
     print(books);
+    var categories = await bookRepository.getCategories();
+    print(categories);
   }
 }
