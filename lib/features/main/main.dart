@@ -1,4 +1,5 @@
 import 'package:booklibrary2020/data/models/language.dart';
+import 'package:booklibrary2020/features/main/BookDetail.dart';
 import 'package:booklibrary2020/features/main_app/bloc/language_bloc.dart';
 import 'package:booklibrary2020/features/main_app/bloc/language_event.dart';
 import 'package:booklibrary2020/generated/i18n.dart';
@@ -73,7 +74,15 @@ class MyHomePageState extends State<MyHomePage> {
     // TODO: implement initState
     super.initState();
     listScreens = [
-      Text("ABC"),
+      InkWell(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => BookDetail()),
+          );
+        },
+          child: Text("ABC")
+      ),
       Text("BCD"),
       Text("EFE"),
       Text("ABC"),
