@@ -1,10 +1,10 @@
 class BookResponse {
-  Feed _feed;
+  BookFeed _feed;
 
-  Feed get feed => _feed;
+  BookFeed get feed => _feed;
 
   BookResponse.fromJson(Map<String, dynamic> json) {
-    _feed = json['feed'] != null ? new Feed.fromJson(json['feed']) : null;
+    _feed = json['feed'] != null ? new BookFeed.fromJson(json['feed']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -16,16 +16,16 @@ class BookResponse {
   }
 }
 
-class Feed {
-  List<Entry> _entry;
+class BookFeed {
+  List<BookEntry> _entry;
 
-  List<Entry> get entry => _entry;
+  List<BookEntry> get entry => _entry;
 
-  Feed.fromJson(Map<String, dynamic> json) {
+  BookFeed.fromJson(Map<String, dynamic> json) {
     if (json['entry'] != null) {
-      _entry = new List<Entry>();
+      _entry = new List<BookEntry>();
       json['entry'].forEach((v) {
-        _entry.add(new Entry.fromJson(v));
+        _entry.add(new BookEntry.fromJson(v));
       });
     }
   }
@@ -39,39 +39,49 @@ class Feed {
   }
 }
 
-class Entry {
-  GsxName _gsxId;
-  GsxName _gsxName;
-  GsxName _gsxAuthor;
-  GsxName _gsxThumburl;
-  GsxName _gsxImageurl;
-  GsxName _gsxDescription;
+class BookEntry {
+  BookGsxName _gsxId;
+  BookGsxName _gsxName;
+  BookGsxName _gsxAuthor;
+  BookGsxName _gsxThumburl;
+  BookGsxName _gsxImageurl;
+  BookGsxName _gsxDescription;
+  BookGsxName _gsxCategoryId;
+  BookGsxName _gsxCategoryName;
 
-  GsxName get gsxId => _gsxId;
-  GsxName get gsxName => _gsxName;
-  GsxName get gsxAuthor => _gsxAuthor;
-  GsxName get gsxThumburl => _gsxThumburl;
-  GsxName get gsxImageurl => _gsxImageurl;
-  GsxName get gsxDescription => _gsxDescription;
+  BookGsxName get gsxId => _gsxId;
+  BookGsxName get gsxName => _gsxName;
+  BookGsxName get gsxAuthor => _gsxAuthor;
+  BookGsxName get gsxThumburl => _gsxThumburl;
+  BookGsxName get gsxImageurl => _gsxImageurl;
+  BookGsxName get gsxDescription => _gsxDescription;
+  BookGsxName get gsxCategoryId => _gsxCategoryId;
+  BookGsxName get gsxCategoryName=> _gsxCategoryName;
 
-  Entry.fromJson(Map<String, dynamic> json) {
+  BookEntry.fromJson(Map<String, dynamic> json) {
+    _gsxCategoryId = json['gsx\$categoryid'] != null
+        ? new BookGsxName.fromJson(json['gsx\$categoryid'])
+        : null;
+    _gsxCategoryName = json['gsx\$categoryid'] != null
+        ? new BookGsxName.fromJson(json['gsx\$categoryname'])
+        : null;
     _gsxId = json['gsx\$id'] != null
-        ? new GsxName.fromJson(json['gsx\$id'])
+        ? new BookGsxName.fromJson(json['gsx\$id'])
         : null;
     _gsxName = json['gsx\$name'] != null
-        ? new GsxName.fromJson(json['gsx\$name'])
+        ? new BookGsxName.fromJson(json['gsx\$name'])
         : null;
     _gsxAuthor = json['gsx\$author'] != null
-        ? new GsxName.fromJson(json['gsx\$author'])
+        ? new BookGsxName.fromJson(json['gsx\$author'])
         : null;
     _gsxThumburl = json['gsx\$thumburl'] != null
-        ? new GsxName.fromJson(json['gsx\$thumburl'])
+        ? new BookGsxName.fromJson(json['gsx\$thumburl'])
         : null;
     _gsxImageurl = json['gsx\$imageurl'] != null
-        ? new GsxName.fromJson(json['gsx\$imageurl'])
+        ? new BookGsxName.fromJson(json['gsx\$imageurl'])
         : null;
     _gsxDescription = json['gsx\$description'] != null
-        ? new GsxName.fromJson(json['gsx\$description'])
+        ? new BookGsxName.fromJson(json['gsx\$description'])
         : null;
   }
 
@@ -79,6 +89,12 @@ class Entry {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this._gsxName != null) {
       data['gsx\$name'] = this._gsxName.toJson();
+    }
+    if (this._gsxCategoryId != null) {
+      data['gsx\$categoryid'] = this._gsxCategoryId.toJson();
+    }
+    if (this._gsxCategoryName != null) {
+      data['gsx\$categoryname'] = this._gsxCategoryName.toJson();
     }
     if (this._gsxId != null) {
       data['gsx\$id'] = this._gsxId.toJson();
@@ -99,12 +115,12 @@ class Entry {
   }
 }
 
-class GsxName {
+class BookGsxName {
   String _text;
 
   String get text => _text;
 
-  GsxName.fromJson(Map<String, dynamic> json) {
+  BookGsxName.fromJson(Map<String, dynamic> json) {
     _text = json['\$t'];
   }
 

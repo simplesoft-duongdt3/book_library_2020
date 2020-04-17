@@ -8,6 +8,8 @@ class BookEntity {
   final String thumbUrl;
   final String imageUrl;
   final String description;
+  final int categoryId;
+  final String categoryName;
 
-  BookEntity({this.id, this.name, this.author, this.thumbUrl, this.imageUrl, this.description});
+  BookEntity({this.id, this.name, this.author, this.thumbUrl, this.imageUrl, this.description, this.categoryId, this.categoryName});
 }
