@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'BottomBarCustom.dart';
+import 'home_screen.dart';
 
 class MainScreen extends StatelessWidget {
   static final screenName = "/home";
@@ -73,7 +74,7 @@ class MyHomePageState extends State<MyHomePage> {
     // TODO: implement initState
     super.initState();
     listScreens = [
-      Text("ABC"),
+      HomeScreen(),
       Text("BCD"),
       Text("EFE"),
       Text("ABC"),
