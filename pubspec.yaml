@@ -41,6 +41,9 @@ dependencies:
     sdk: flutter
   flutter_cupertino_localizations: ^1.0.1
 
+  # https://pub.dev/packages/flutter_rating_bar
+  flutter_rating_bar: 3.0.1
+
   # Easy localization
   # https://pub.dev/packages/easy_localization
   easy_localization: 2.1.0+2

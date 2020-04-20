@@ -1,11 +1,13 @@
+import 'package:booklibrary2020/data/models/book.dart';
 import 'package:booklibrary2020/data/models/language.dart';
+import 'package:booklibrary2020/features/main/book_detail.dart';
 import 'package:booklibrary2020/features/main_app/bloc/language_bloc.dart';
 import 'package:booklibrary2020/features/main_app/bloc/language_event.dart';
 import 'package:booklibrary2020/generated/i18n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'BottomBarCustom.dart';
+import 'bottom_bar_custom.dart';
 import 'home_screen.dart';
 
 class MainScreen extends StatelessWidget {
