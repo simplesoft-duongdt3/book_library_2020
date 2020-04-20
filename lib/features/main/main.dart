@@ -1,12 +1,13 @@
+import 'package:booklibrary2020/data/models/book.dart';
 import 'package:booklibrary2020/data/models/language.dart';
-import 'package:booklibrary2020/features/main/BookDetail.dart';
+import 'package:booklibrary2020/features/main/book_detail.dart';
 import 'package:booklibrary2020/features/main_app/bloc/language_bloc.dart';
 import 'package:booklibrary2020/features/main_app/bloc/language_event.dart';
 import 'package:booklibrary2020/generated/i18n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'BottomBarCustom.dart';
+import 'bottom_bar_custom.dart';
 
 class MainScreen extends StatelessWidget {
   static final screenName = "/home";
@@ -78,7 +79,14 @@ class MyHomePageState extends State<MyHomePage> {
         onTap: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => BookDetail()),
+            MaterialPageRoute(builder: (context) => BookDetail(bookEntity: BookEntity(
+              id: 1,
+              author: "",
+              description: "",
+              imageUrl: "",
+              name: "",
+              thumbUrl: ""
+            ),)),
           );
         },
           child: Text("ABC")
