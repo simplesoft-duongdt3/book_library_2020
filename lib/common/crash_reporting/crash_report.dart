@@ -8,7 +8,7 @@ class CrashReport {
   final int maxSizeEventBloc = 10;
   final Queue _stackEventBloc = new Queue();
   final SentryClient _sentryClient = new SentryClient(
-      dsn: "https://7f347510c96d4fa6a77280df3274effd@sentry.io/1814973");
+      dsn: "https://03bb54cbaf2e41a3b3b24656ec75d752@o379191.ingest.sentry.io/5203636");
 
   static final CrashReport _crashReport = CrashReport._();
   CrashReport._();

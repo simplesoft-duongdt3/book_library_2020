@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'bottom_bar_custom.dart';
+import 'home_screen.dart';
 
 class MainScreen extends StatelessWidget {
   static final screenName = "/home";
@@ -75,22 +76,7 @@ class MyHomePageState extends State<MyHomePage> {
     // TODO: implement initState
     super.initState();
     listScreens = [
-      InkWell(
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => BookDetail(bookEntity: BookEntity(
-              id: 1,
-              author: "",
-              description: "",
-              imageUrl: "",
-              name: "",
-              thumbUrl: ""
-            ),)),
-          );
-        },
-          child: Text("ABC")
-      ),
+      HomeScreen(),
       Text("BCD"),
       Text("EFE"),
       Text("ABC"),
