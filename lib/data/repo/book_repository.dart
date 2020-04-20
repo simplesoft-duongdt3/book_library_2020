@@ -44,6 +44,8 @@ class BookRepository {
         description: entry.gsxDescription.text ?? "",
         thumbUrl: entry.gsxThumburl.text ?? "",
         imageUrl: entry.gsxImageurl.text ?? "",
+        categoryId: int.parse(entry.gsxCategoryId.text ?? "0") ?? 0,
+        categoryName: entry.gsxCategoryName.text ?? ""
     )).toList(growable: false);
   }
 
