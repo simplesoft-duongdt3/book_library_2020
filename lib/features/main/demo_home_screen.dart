@@ -1,4 +1,6 @@
+import 'package:booklibrary2020/features/main/book_list_bloc.dart';
 import 'package:booklibrary2020/features/main/book_list_without_state_management.dart';
+import 'package:booklibrary2020/features/main/demo_bloc/book_list_bloc.dart';
 import 'package:flutter/material.dart';
 
 import 'book_list_setstate.dart';
@@ -66,6 +68,23 @@ class _DemoMainState extends State<DemoMain> {
               },
               child: Text(
                 "3. Book list streambuilder",
+                style: TextStyle(fontSize: 20.0),
+              ),
+            ),
+            FlatButton(
+              color: Colors.blue,
+              textColor: Colors.white,
+              padding: EdgeInsets.all(8.0),
+              splashColor: Colors.blueAccent,
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => BookListWithBloc()),
+                );
+              },
+              child: Text(
+                "4. Book list BLoC",
                 style: TextStyle(fontSize: 20.0),
               ),
             )

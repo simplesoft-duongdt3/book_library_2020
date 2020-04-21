@@ -12,12 +12,12 @@ import 'book_list_item.dart';
 
 class BookListStreamBuilder extends StatefulWidget {
   @override
-  createState() => BookListStreamBuilderState();
+  createState() => _BookListStreamBuilderState();
 }
 
-class BookListStreamBuilderState extends State<BookListStreamBuilder> {
-  final StreamController<BookListState> _streamController =
-  new StreamController<BookListState>();
+class _BookListStreamBuilderState extends State<BookListStreamBuilder> {
+  final StreamController<_BookListState> _streamController =
+  new StreamController<_BookListState>();
   final BookRepository bookRepository = BookRepository(apiServiceInstance);
 
   @override
@@ -33,15 +33,15 @@ class BookListStreamBuilderState extends State<BookListStreamBuilder> {
   }
 
   void getBooks() async {
-    _streamController.add(BookListState.loading());
+    _streamController.add(_BookListState.loading());
 
     NetworkResponseModel<List<BookEntity>> books =
     await bookRepository.getBooks();
 
     if (books.isSuccess()) {
-      _streamController.add(BookListState.successWithData(books.responseModel));
+      _streamController.add(_BookListState.successWithData(books.responseModel));
     } else {
-      _streamController.add(BookListState.error());
+      _streamController.add(_BookListState.error());
     }
   }
 
@@ -54,11 +54,11 @@ class BookListStreamBuilderState extends State<BookListStreamBuilder> {
         titleSpacing: 0.00,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
-      body: StreamBuilder<BookListState>(
+      body: StreamBuilder<_BookListState>(
           stream: _streamController.stream,
-          initialData: BookListState.loading(),
+          initialData: _BookListState.loading(),
           builder: (BuildContext context,
-              AsyncSnapshot<BookListState> snapshot) {
+              AsyncSnapshot<_BookListState> snapshot) {
             if (snapshot.hasData) {
               final bookListState = snapshot.data;
               if (bookListState.isLoading) {
@@ -133,24 +133,24 @@ class BookListStreamBuilderState extends State<BookListStreamBuilder> {
   }
 }
 
-class BookListState {
+class _BookListState {
   final bool isLoading;
   final bool isError;
   final List<BookEntity> listBook;
 
-  BookListState({@required this.isLoading,
+  _BookListState({@required this.isLoading,
     @required this.isError,
     @required this.listBook});
 
-  static BookListState loading() {
-    return BookListState(isError: false, isLoading: true, listBook: null);
+  static _BookListState loading() {
+    return _BookListState(isError: false, isLoading: true, listBook: null);
   }
 
-  static BookListState error() {
-    return BookListState(isError: true, isLoading: false, listBook: null);
+  static _BookListState error() {
+    return _BookListState(isError: true, isLoading: false, listBook: null);
   }
 
-  static BookListState successWithData(List<BookEntity> listBook) {
-    return BookListState(isError: false, isLoading: false, listBook: listBook);
+  static _BookListState successWithData(List<BookEntity> listBook) {
+    return _BookListState(isError: false, isLoading: false, listBook: listBook);
   }
 }

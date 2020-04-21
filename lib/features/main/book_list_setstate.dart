@@ -10,10 +10,10 @@ import 'book_list_item.dart';
 
 class BookListSetState extends StatefulWidget {
   @override
-  createState() => BookListSetStateState();
+  createState() => _BookListSetStateState();
 }
 
-class BookListSetStateState extends State<BookListSetState> {
+class _BookListSetStateState extends State<BookListSetState> {
   List<BookEntity> newListBook = List<BookEntity>();
   bool isLoading = false;
   bool isError = false;
