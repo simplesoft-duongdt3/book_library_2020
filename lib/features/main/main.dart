@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'bottom_bar_custom.dart';
+import 'demo_home_screen.dart';
 import 'home_screen.dart';
 
 class MainScreen extends StatelessWidget {
@@ -20,7 +21,7 @@ class MainScreen extends StatelessWidget {
         title: Text(S.of(context).app_name),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
-      body: MyHomePage(),
+      body: DemoMain(),
       floatingActionButton: FloatingActionButton(
         tooltip: S.of(context).change_language,
         child: Icon(Icons.language),

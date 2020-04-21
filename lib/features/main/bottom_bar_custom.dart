@@ -78,7 +78,6 @@ class BottomBarCustom extends StatelessWidget {
       ),
     );
   }
-
 }
 
 class _ItemWidget extends StatelessWidget {
@@ -132,8 +131,8 @@ class _ItemWidget extends StatelessWidget {
                   color: isSelected
                       ? item.activeColor.withOpacity(1)
                       : item.inactiveColor == null
-                      ? item.activeColor
-                      : item.inactiveColor,
+                          ? item.activeColor
+                          : item.inactiveColor,
                 ),
                 child: item.icon,
               ),

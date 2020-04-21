@@ -11,6 +11,9 @@ class BookRepository {
   BookRepository(this._apiService);
 
   Future<NetworkResponseModel<List<BookEntity>>> getBooks() async {
+    //delay for testing
+    await Future.delayed(Duration(seconds: 1));
+
     var requestGetBooks = _apiService.getBooks();
     NetworkResult<BookResponse> getBooksResult =
         await handleNetworkResult(requestGetBooks);
