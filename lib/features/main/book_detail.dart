@@ -129,7 +129,7 @@ class BookDetail extends StatelessWidget {
                               height: 20,
                             ),
                             Text(
-                              "${bookEntity.description} \n ${bookEntity.description} \n ${bookEntity.description}",
+                              "${bookEntity.description}",
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   fontSize: 18, color: Colors.grey),
