@@ -1,3 +1,4 @@
+
 import 'package:booklibrary2020/data/models/book.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,128 +19,124 @@ class BookDetail extends StatelessWidget {
         child: Column(
           children: <Widget>[
             Expanded(
-              child: CustomScrollView(
-                slivers: [
-                  SliverPersistentHeader(
-                    delegate: _MySliverAppBar(expandedHeight: _expandedHeight, logoUrl: bookEntity.thumbUrl),
-                    pinned: true,
-                    floating: true,
-                  ),
-                  SliverList(
-                    delegate: SliverChildListDelegate([
-                      Padding(
-                        padding: EdgeInsets.only(left: 15, right: 15),
-                        child: Column(
-                          children: <Widget>[
-                            SizedBox(
-                              height: 4,
-                            ),
-                            Text("${bookEntity.name}",
+              child: NestedScrollView(
+                headerSliverBuilder: (context, innerBoxIsScrolled) {
+                  return [
+                    SliverPersistentHeader(
+                      delegate: _MySliverAppBar(
+                          expandedHeight: _expandedHeight,
+                          logoUrl: bookEntity.thumbUrl,
+                      title: bookEntity.name),
+                      pinned: true,
+                      floating: true,
+                    )
+                  ];
+                },
+                body: Container(
+                  padding: EdgeInsets.only(left: 15, right: 15),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      SizedBox(
+                        height: 28,
+                      ),
+                      Text("${bookEntity.name}",
+                          style: TextStyle(fontSize: 24, color: Colors.black)),
+                      SizedBox(
+                        height: 4,
+                      ),
+                      Text(
+                        "${bookEntity.author}",
+                        style: TextStyle(fontSize: 14, color: Colors.grey),
+                      ),
+                      SizedBox(
+                        height: 4,
+                      ),
+                      RatingBar(
+                        initialRating: 3,
+                        minRating: 1,
+                        direction: Axis.horizontal,
+                        allowHalfRating: true,
+                        itemCount: 5,
+                        itemSize: 20,
+                        itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                        itemBuilder: (context, _) => Icon(
+                          Icons.star,
+                          color: Colors.amber,
+                        ),
+                        onRatingUpdate: (rating) {
+                          print(rating);
+                        },
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[
+                          Column(
+                            children: <Widget>[
+                              Text(
+                                "130",
                                 style: TextStyle(
-                                    fontSize: 24, color: Colors.black)),
-                            SizedBox(
-                              height: 4,
-                            ),
-                            Text(
-                              "${bookEntity.author}",
-                              style: TextStyle(
-                                  fontSize: 14, color: Colors.grey),
-                            ),
-                            SizedBox(
-                              height: 4,
-                            ),
-                            RatingBar(
-                              initialRating: 3,
-                              minRating: 1,
-                              direction: Axis.horizontal,
-                              allowHalfRating: true,
-                              itemCount: 5,
-                              itemSize: 20,
-                              itemPadding:
-                                  EdgeInsets.symmetric(horizontal: 4.0),
-                              itemBuilder: (context, _) => Icon(
-                                Icons.star,
-                                color: Colors.amber,
+                                    fontSize: 18,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold),
                               ),
-                              onRatingUpdate: (rating) {
-                                print(rating);
-                              },
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Row(
-                              mainAxisAlignment:
-                                  MainAxisAlignment.spaceAround,
-                              children: <Widget>[
-                                Column(
-                                  children: <Widget>[
-                                    Text(
-                                      "130",
-                                      style: TextStyle(
-                                          fontSize: 18,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    Text(
-                                      "Page",
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.grey),
-                                    )
-                                  ],
-                                ),
-                                Column(
-                                  children: <Widget>[
-                                    Text(
-                                      "English",
-                                      style: TextStyle(
-                                          fontSize: 18,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    Text(
-                                      "language",
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.grey),
-                                    )
-                                  ],
-                                ),
-                                Column(
-                                  children: <Widget>[
-                                    Text(
-                                      "2018",
-                                      style: TextStyle(
-                                          fontSize: 18,
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    Text(
-                                      "Release",
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.grey),
-                                    )
-                                  ],
-                                )
-                              ],
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Text(
-                              "${bookEntity.description}",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontSize: 18, color: Colors.grey),
-                            )
-                          ],
+                              Text(
+                                "Page",
+                                style:
+                                    TextStyle(fontSize: 14, color: Colors.grey),
+                              )
+                            ],
+                          ),
+                          Column(
+                            children: <Widget>[
+                              Text(
+                                "English",
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                "language",
+                                style:
+                                    TextStyle(fontSize: 14, color: Colors.grey),
+                              )
+                            ],
+                          ),
+                          Column(
+                            children: <Widget>[
+                              Text(
+                                "2018",
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                "Release",
+                                style:
+                                    TextStyle(fontSize: 14, color: Colors.grey),
+                              )
+                            ],
+                          )
+                        ],
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Expanded(
+                        child: Text(
+                          "${bookEntity.description}",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontSize: 18, color: Colors.grey),
                         ),
                       )
-                    ]),
-                  )
-                ],
+                    ],
+                  ),
+                ),
               ),
             ),
             widgetBorrow(context)
@@ -170,16 +167,22 @@ class BookDetail extends StatelessWidget {
   }
 }
 
-
 class _MySliverAppBar extends SliverPersistentHeaderDelegate {
   final double expandedHeight;
   final String logoUrl;
+  final String title;
 
-  _MySliverAppBar({@required this.expandedHeight, @required this.logoUrl});
+  _MySliverAppBar({@required this.expandedHeight, @required this.logoUrl, @required this.title});
 
   @override
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
+    double opacity = 0;
+    if(shrinkOffset < (expandedHeight - minExtent + 50)) {
+      opacity = 0;
+    } else {
+      opacity = 1;
+    }
     return Stack(
       children: <Widget>[
         Container(
@@ -193,17 +196,21 @@ class _MySliverAppBar extends SliverPersistentHeaderDelegate {
                 left: 0,
                 top: kToolbarHeight / 2 - 24,
                 child: IconButton(
-                  icon: Icon(Icons.arrow_back_ios, color: Colors.white,),
+                  icon: Icon(
+                    Icons.arrow_back_ios,
+                    color: Colors.white,
+                  ),
                   iconSize: 24,
                   onPressed: () {
                     Navigator.pop(context);
-                  },),
+                  },
+                ),
               ),
               Center(
                 child: Opacity(
-                  opacity: shrinkOffset / expandedHeight,
+                  opacity: opacity,
                   child: Text(
-                    "Book Details",
+                    this.title,
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.w700,
@@ -222,7 +229,7 @@ class _MySliverAppBar extends SliverPersistentHeaderDelegate {
             height: expandedHeight / 2 + 40,
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
-              border: Border.all(color: Colors.white, width: 1.0),
+                border: Border.all(color: Colors.white, width: 1.0),
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(10),
                     topRight: Radius.circular(10)),
