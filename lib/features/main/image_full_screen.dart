@@ -11,6 +11,7 @@ class ImageFullScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Colors.black.withOpacity(0.94),
         body: Hero(
           tag: tag,
           transitionOnUserGestures: true,
@@ -29,7 +30,7 @@ class ImageFullScreen extends StatelessWidget {
                   child: IconButton(
                     icon: Icon(
                       Icons.close,
-                      color: Colors.black,
+                      color: Colors.white,
                     ),
                     iconSize: 32,
                     onPressed: () {

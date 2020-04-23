@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:page_transition/page_transition.dart';
 
 import 'image_full_screen.dart';
 
@@ -256,7 +257,9 @@ class _MySliverAppBar extends SliverPersistentHeaderDelegate {
       tag: tag,
       child: FlatButton(
         onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => ImageFullScreen(tag: tag, imageUrl: logoUrl,)));
+          Navigator.push(context, PageRouteBuilder(opaque: false, pageBuilder: (_,ab,c) {
+            return ImageFullScreen(tag: tag, imageUrl: logoUrl);
+          }));
         },
         child: Container(
           width: MediaQuery.of(context).size.width / 2,
