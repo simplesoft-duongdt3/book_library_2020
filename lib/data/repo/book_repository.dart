@@ -37,22 +37,29 @@ class BookRepository {
   }
 
   List<BookEntity> mapBooksResponse(BookResponse response) {
-    return response.feed.entry.map((entry) => BookEntity(
-        id: int.parse(entry.gsxId.text ?? "0") ?? 0,
-        author: entry.gsxAuthor.text ?? "",
-        name: entry.gsxName.text ?? "",
-        description: entry.gsxDescription.text ?? "",
-        thumbUrl: entry.gsxThumburl.text ?? "",
-        imageUrl: entry.gsxImageurl.text ?? "",
-        categoryId: int.parse(entry.gsxCategoryId.text ?? "0") ?? 0,
-        categoryName: entry.gsxCategoryName.text ?? ""
-    )).toList(growable: false);
+    return response.feed.entry
+        .map((entry) => BookEntity(
+              id: int.parse(entry.gsxId.text ?? "0") ?? 0,
+              author: entry.gsxAuthor.text ?? "",
+              name: entry.gsxName.text ?? "",
+              description: entry.gsxDescription.text ?? "",
+              thumbUrl: entry.gsxThumburl.text ?? "",
+              imageUrl: entry.gsxImageurl.text ?? "",
+              categoryId: int.parse(entry.gsxCategoryId.text ?? "0") ?? 0,
+              categoryName: entry.gsxCategoryName.text ?? "",
+              imageRatio: entry.gsxImageRatio.text ?? "",
+              language: entry.gsxLanguage.text ?? "",
+              pageCount: entry.gsxPageCount.text ?? "",
+              releaseTime: entry.gsxReleaseTime.text ?? "",
+            ))
+        .toList(growable: false);
   }
 
   List<CategoryEntity> mapCategoriesResponse(CategoryResponse response) {
-    return response.feed.entry.map((entry) => CategoryEntity(
-        id: int.parse(entry.gsxId.text ?? "0") ?? 0,
-        name: entry.gsxName.text ?? ""
-    )).toList(growable: false);
+    return response.feed.entry
+        .map((entry) => CategoryEntity(
+            id: int.parse(entry.gsxId.text ?? "0") ?? 0,
+            name: entry.gsxName.text ?? ""))
+        .toList(growable: false);
   }
 }

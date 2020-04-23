@@ -48,6 +48,10 @@ class BookEntry {
   BookGsxName _gsxDescription;
   BookGsxName _gsxCategoryId;
   BookGsxName _gsxCategoryName;
+  BookGsxName _gsxImageRatio;
+  BookGsxName _gsxReleaseTime;
+  BookGsxName _gsxLanguage;
+  BookGsxName _gsxPageCount;
 
   BookGsxName get gsxId => _gsxId;
   BookGsxName get gsxName => _gsxName;
@@ -57,8 +61,24 @@ class BookEntry {
   BookGsxName get gsxDescription => _gsxDescription;
   BookGsxName get gsxCategoryId => _gsxCategoryId;
   BookGsxName get gsxCategoryName=> _gsxCategoryName;
+  BookGsxName get gsxImageRatio=> _gsxImageRatio;
+  BookGsxName get gsxReleaseTime=> _gsxReleaseTime;
+  BookGsxName get gsxLanguage=> _gsxLanguage;
+  BookGsxName get gsxPageCount=> _gsxPageCount;
 
   BookEntry.fromJson(Map<String, dynamic> json) {
+    _gsxPageCount = json['gsx\$pagecount'] != null
+        ? new BookGsxName.fromJson(json['gsx\$pagecount'])
+        : null;
+    _gsxLanguage = json['gsx\$language'] != null
+        ? new BookGsxName.fromJson(json['gsx\$language'])
+        : null;
+    _gsxImageRatio = json['gsx\$imageratio'] != null
+        ? new BookGsxName.fromJson(json['gsx\$imageratio'])
+        : null;
+    _gsxReleaseTime = json['gsx\$releasetime'] != null
+        ? new BookGsxName.fromJson(json['gsx\$releasetime'])
+        : null;
     _gsxCategoryId = json['gsx\$categoryid'] != null
         ? new BookGsxName.fromJson(json['gsx\$categoryid'])
         : null;
@@ -87,6 +107,18 @@ class BookEntry {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this._gsxLanguage != null) {
+      data['gsx\$language'] = this._gsxLanguage.toJson();
+    }
+    if (this._gsxPageCount != null) {
+      data['gsx\$pagecount'] = this._gsxPageCount.toJson();
+    }
+    if (this._gsxImageRatio != null) {
+      data['gsx\$imageratio'] = this._gsxImageRatio.toJson();
+    }
+    if (this._gsxReleaseTime != null) {
+      data['gsx\$releasetime'] = this._gsxReleaseTime.toJson();
+    }
     if (this._gsxName != null) {
       data['gsx\$name'] = this._gsxName.toJson();
     }
