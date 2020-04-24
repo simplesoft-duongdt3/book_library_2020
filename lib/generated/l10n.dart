@@ -54,10 +54,28 @@ class S {
     );
   }
 
-  String get change_language_xxx {
+  String get page {
     return Intl.message(
-      'Change languag1234412323e1212',
-      name: 'change_language_xxx',
+      'Page',
+      name: 'page',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get language {
+    return Intl.message(
+      'Language',
+      name: 'language',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get release {
+    return Intl.message(
+      'Release',
+      name: 'release',
       desc: '',
       args: [],
     );

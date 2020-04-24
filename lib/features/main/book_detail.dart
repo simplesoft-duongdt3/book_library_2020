@@ -1,5 +1,6 @@
 
 import 'package:booklibrary2020/data/models/book.dart';
+import 'package:booklibrary2020/generated/l10n.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -87,7 +88,7 @@ class BookDetail extends StatelessWidget {
                                     fontWeight: FontWeight.bold),
                               ),
                               Text(
-                                "Page",
+                                S.of(context).page,
                                 style:
                                 TextStyle(fontSize: 14, color: Colors.grey),
                               )
@@ -103,7 +104,7 @@ class BookDetail extends StatelessWidget {
                                     fontWeight: FontWeight.bold),
                               ),
                               Text(
-                                "language",
+                                S.of(context).language,
                                 style:
                                 TextStyle(fontSize: 14, color: Colors.grey),
                               )
@@ -119,7 +120,7 @@ class BookDetail extends StatelessWidget {
                                     fontWeight: FontWeight.bold),
                               ),
                               Text(
-                                "Release",
+                                S.of(context).release,
                                 style:
                                 TextStyle(fontSize: 14, color: Colors.grey),
                               )
