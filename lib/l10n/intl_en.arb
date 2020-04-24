@@ -2,5 +2,7 @@
   "app_name": "Book library",
   "hello_text": "Hello!",
   "change_language": "Change language",
-  "change_language_xxx": "Change languag1234412323e1212"
+  "page": "Page",
+   "language": "Language",
+   "release": "Release"
 }
