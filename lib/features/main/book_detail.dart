@@ -4,6 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:page_transition/page_transition.dart';
+
+import 'image_full_screen.dart';
 
 class BookDetail extends StatelessWidget {
   final double _expandedHeight = 300;
@@ -249,21 +252,32 @@ class _MySliverAppBar extends SliverPersistentHeaderDelegate {
   }
 
   Widget widgetLogoBook(BuildContext context, String logoUrl) {
-    return Container(
-      width: MediaQuery.of(context).size.width / 2,
-      height: 240,
-      child: Card(
-          semanticContainer: true,
-          elevation: 10,
-          clipBehavior: Clip.antiAliasWithSaveLayer,
-          shape: RoundedRectangleBorder(
-            side: BorderSide(color: Colors.white, width: 1),
-            borderRadius: BorderRadius.circular(5),
-          ),
-          child: Image.network(
-            logoUrl,
-            fit: BoxFit.fill,
-          )),
+    String tag = "logoBook";
+    return Hero(
+      tag: tag,
+      child: FlatButton(
+        onPressed: () {
+          Navigator.push(context, PageRouteBuilder(opaque: false, pageBuilder: (_,ab,c) {
+            return ImageFullScreen(tag: tag, imageUrl: logoUrl);
+          }));
+        },
+        child: Container(
+          width: MediaQuery.of(context).size.width / 2,
+          height: 240,
+          child: Card(
+              semanticContainer: true,
+              elevation: 10,
+              clipBehavior: Clip.antiAliasWithSaveLayer,
+              shape: RoundedRectangleBorder(
+                side: BorderSide(color: Colors.white, width: 1),
+                borderRadius: BorderRadius.circular(5),
+              ),
+              child: Image.network(
+                logoUrl,
+                fit: BoxFit.fill,
+              )),
+        ),
+      ),
     );
   }
 
