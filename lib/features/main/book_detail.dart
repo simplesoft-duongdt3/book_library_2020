@@ -80,7 +80,7 @@ class BookDetail extends StatelessWidget {
                           Column(
                             children: <Widget>[
                               Text(
-                                "130",
+                                bookEntity.pageCount,
                                 style: TextStyle(
                                     fontSize: 18,
                                     color: Colors.black,
@@ -96,7 +96,7 @@ class BookDetail extends StatelessWidget {
                           Column(
                             children: <Widget>[
                               Text(
-                                "English",
+                                bookEntity.language,
                                 style: TextStyle(
                                     fontSize: 18,
                                     color: Colors.black,
@@ -112,7 +112,7 @@ class BookDetail extends StatelessWidget {
                           Column(
                             children: <Widget>[
                               Text(
-                                "2018",
+                                bookEntity.releaseTime,
                                 style: TextStyle(
                                     fontSize: 18,
                                     color: Colors.black,
