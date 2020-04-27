@@ -18,6 +18,17 @@ class BookListBloc extends Bloc<BookListEvent, BookListState> {
   ) async* {
     if (event is GetItemsEvent) {
       yield* handleGetItemsEvent();
+    } else if (event is SearchItemsEvent) {
+      yield* handleSearchItemsEvent();
+    }
+  }
+
+  Stream<BookListState> handleSearchItemsEvent() async* {
+    NetworkResponseModel<List<BookEntity>> books = await _bookRepository.getBooks();
+    if (books.isSuccess()) {
+      yield SuccessBookListState(books.responseModel);
+    } else {
+      yield ErrorBookListState();
     }
   }
 

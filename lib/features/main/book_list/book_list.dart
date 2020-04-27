@@ -105,30 +105,35 @@ class _BookListWithBlocBodyState extends State<BookListWithBlocBody> {
           child: Column(
             children: <Widget>[
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 25),
                 child: TextField(
                   onChanged: (value) {
-
+                    searchBooks(context);
                   },
-//                  controller: editingController,
+                  style: TextStyle(
+                    height: 0.5
+                  ),
                   decoration: InputDecoration(
                       labelText: "Search",
                       hintText: "Search",
                       prefixIcon: Icon(Icons.search),
                       border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(25.0)))),
+                          borderRadius: BorderRadius.all(Radius.circular(15.0)))),
                 ),
               ),
-              Expanded(
-                child: ListView.separated(
-                  shrinkWrap: true,
-                  separatorBuilder: (context, index) => Divider(
-                    color: Color.fromARGB(135, 135, 135, 1),
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 8, horizontal: 25),
+                child: Expanded(
+                  child: ListView.separated(
+                    shrinkWrap: true,
+                    separatorBuilder: (context, index) => Divider(
+                      color: Color.fromARGB(135, 135, 135, 1),
+                    ),
+                    itemCount: listBook.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return BookListItem(item: listBook[index]);
+                    },
                   ),
-                  itemCount: listBook.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return BookListItem(item: listBook[index]);
-                  },
                 ),
               ),
             ],
@@ -144,5 +149,9 @@ class _BookListWithBlocBodyState extends State<BookListWithBlocBody> {
 
   void getBooks(context) async {
     BlocProvider.of<BookListBloc>(context).add(GetItemsEvent());
+  }
+
+  void searchBooks(context) async {
+    BlocProvider.of<BookListBloc>(context).add(SearchItemsEvent());
   }
 }

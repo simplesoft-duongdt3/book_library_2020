@@ -4,3 +4,5 @@ import 'package:meta/meta.dart';
 abstract class BookListEvent {}
 
 class GetItemsEvent extends BookListEvent {}
+
+class SearchItemsEvent extends BookListEvent {}
