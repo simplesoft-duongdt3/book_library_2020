@@ -121,9 +121,9 @@ class _BookListWithBlocBodyState extends State<BookListWithBlocBody> {
                           borderRadius: BorderRadius.all(Radius.circular(15.0)))),
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 8, horizontal: 25),
-                child: Expanded(
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(vertical: 8, horizontal: 25),
                   child: ListView.separated(
                     shrinkWrap: true,
                     separatorBuilder: (context, index) => Divider(
