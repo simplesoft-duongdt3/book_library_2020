@@ -53,6 +53,9 @@ dependencies:
   # https://pub.dev/packages/flutter_html
   flutter_html: ^0.11.1
 
+  # https://pub.dev/packages/flappy_search_bar#
+  flappy_search_bar: ^1.7.2
+
   # https://pub.dev/packages/flutter_rating_bar
   flutter_rating_bar: 3.0.1
 
