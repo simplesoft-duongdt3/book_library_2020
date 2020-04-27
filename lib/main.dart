@@ -1,4 +1,3 @@
-import 'package:booklibrary2020/generated/i18n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -11,6 +10,7 @@ import 'data/repo/language_repository.dart';
 import 'features/main/main.dart';
 import 'features/main_app/bloc/language_bloc.dart';
 import 'features/main_app/bloc/language_state.dart';
+import 'generated/l10n.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

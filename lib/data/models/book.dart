@@ -10,6 +10,22 @@ class BookEntity {
   final String description;
   final int categoryId;
   final String categoryName;
+  final String imageRatio;
+  final String releaseTime;
+  final String language;
+  final String pageCount;
 
-  BookEntity({this.id, this.name, this.author, this.thumbUrl, this.imageUrl, this.description, this.categoryId, this.categoryName});
+  BookEntity(
+      {@required this.id,
+      @required this.name,
+      @required this.author,
+      @required this.thumbUrl,
+      @required this.imageUrl,
+      @required this.description,
+      @required this.categoryId,
+      @required this.categoryName,
+      @required this.imageRatio,
+      @required this.releaseTime,
+      @required this.language,
+      @required this.pageCount});
 }

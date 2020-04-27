@@ -3,7 +3,7 @@ import 'package:booklibrary2020/data/models/language.dart';
 import 'package:booklibrary2020/features/main/book_detail.dart';
 import 'package:booklibrary2020/features/main_app/bloc/language_bloc.dart';
 import 'package:booklibrary2020/features/main_app/bloc/language_event.dart';
-import 'package:booklibrary2020/generated/i18n.dart';
+import 'package:booklibrary2020/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
