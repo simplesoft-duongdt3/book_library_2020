@@ -80,6 +80,15 @@ class S {
       args: [],
     );
   }
+
+  String get borrow_book_action {
+    return Intl.message(
+      'BORROW',
+      name: 'borrow_book_action',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

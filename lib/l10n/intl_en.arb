@@ -4,5 +4,6 @@
   "change_language": "Change language",
   "page": "Page",
    "language": "Language",
-   "release": "Release"
+   "release": "Release",
+  "borrow_book_action": "BORROW"
 }
