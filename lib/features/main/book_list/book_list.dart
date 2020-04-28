@@ -13,6 +13,10 @@ import 'book_list_item.dart';
 import 'bloc.dart';
 
 class BookList extends StatelessWidget {
+  final int categoryId;
+
+  BookList(this.categoryId);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,12 +24,16 @@ class BookList extends StatelessWidget {
           create: (context) {
             return BookListBloc(RepositoryProvider.of<BookRepository>(context));
           },
-          child: BookListWithBlocBody(),
+          child: BookListWithBlocBody(categoryId),
         ));
   }
 }
 
 class BookListWithBlocBody extends StatefulWidget {
+  final int categoryId;
+
+  BookListWithBlocBody(this.categoryId);
+
   @override
   _BookListWithBlocBodyState createState() => _BookListWithBlocBodyState();
 }
@@ -96,6 +104,14 @@ class _BookListWithBlocBodyState extends State<BookListWithBlocBody> {
   }
 
   Widget buildBookListWidget(List<BookEntity> listBook) {
+    final textController = TextEditingController();
+
+    @override
+    void dispose() {
+      textController.dispose();
+      super.dispose();
+    }
+
     return Builder(builder: (context) {
       return Container(
         child: RefreshIndicator(
@@ -108,14 +124,14 @@ class _BookListWithBlocBodyState extends State<BookListWithBlocBody> {
                 padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 25),
                 child: TextField(
                   onChanged: (value) {
-                    searchBooks(context);
+                    searchBooks(context, textController.text);
                   },
+                  controller: textController,
                   style: TextStyle(
-                    height: 0.5
+                    height: 1.0
                   ),
                   decoration: InputDecoration(
-                      labelText: "Search",
-                      hintText: "Search",
+                      hintText: 'Search',
                       prefixIcon: Icon(Icons.search),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(15.0)))),
@@ -148,10 +164,10 @@ class _BookListWithBlocBodyState extends State<BookListWithBlocBody> {
   }
 
   void getBooks(context) async {
-    BlocProvider.of<BookListBloc>(context).add(GetItemsEvent());
+    BlocProvider.of<BookListBloc>(context).add(GetItemsEvent(widget.categoryId));
   }
 
-  void searchBooks(context) async {
-    BlocProvider.of<BookListBloc>(context).add(SearchItemsEvent());
+  void searchBooks(context, String searchTerm) async {
+    BlocProvider.of<BookListBloc>(context).add(SearchItemsEvent(widget.categoryId, searchTerm));
   }
 }

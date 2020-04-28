@@ -21,14 +21,14 @@ class BookListBloc extends Bloc<BookListEvent, BookListState> {
     BookListEvent event,
   ) async* {
     if (event is GetItemsEvent) {
-      yield* handleGetItemsEvent();
+      yield* handleGetItemsEvent(event.categoryId);
     } else if (event is SearchItemsEvent) {
-      yield* handleSearchItemsEvent();
+      yield* handleSearchItemsEvent(event.categoryId, event.searchTerm);
     }
   }
 
-  Stream<BookListState> handleSearchItemsEvent() async* {
-    NetworkResponseModel<List<BookEntity>> books = await _bookRepository.getBooks(FilterBook(isGetAllCategory: false, categoryId: _random.nextInt(6), searchTerm: "a"));
+  Stream<BookListState> handleSearchItemsEvent(int categoryId, String searchTerm) async* {
+    var books = await _bookRepository.getBooks(FilterBook(isGetAllCategory: false, categoryId: categoryId, searchTerm: searchTerm));
     if (books.isSuccess()) {
       yield SuccessBookListState(books.responseModel);
     } else {
@@ -36,9 +36,9 @@ class BookListBloc extends Bloc<BookListEvent, BookListState> {
     }
   }
 
-  Stream<BookListState> handleGetItemsEvent() async* {
+  Stream<BookListState> handleGetItemsEvent(int categoryId) async* {
     yield LoadingBookListState();
-    NetworkResponseModel<List<BookEntity>> books = await _bookRepository.getBooks(FilterBook(isGetAllCategory: false, categoryId: _random.nextInt(6)));
+    var books = await _bookRepository.getBooks(FilterBook(isGetAllCategory: false, categoryId: categoryId));
 
     if (books.isSuccess()) {
       yield SuccessBookListState(books.responseModel);
