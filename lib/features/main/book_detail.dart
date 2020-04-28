@@ -37,106 +37,10 @@ class BookDetail extends StatelessWidget {
                     )
                   ];
                 },
-                body: SingleChildScrollView(
-                  child: Container(
-                    color: Colors.white,
-                    padding: EdgeInsets.only(left: 15, right: 15),
-                    child: Column(
-                      children: <Widget>[
-                      SizedBox(
-                      height: 28,
-                    ),
-                      Text("${bookEntity.name}",
-                          style: TextStyle(fontSize: 24, color: Colors.black)),
-                      SizedBox(
-                        height: 4,
-                      ),
-                      Text(
-                        "${bookEntity.author}",
-                        style: TextStyle(fontSize: 14, color: Colors.grey),
-                      ),
-                      SizedBox(
-                        height: 4,
-                      ),
-                      RatingBar(
-                        initialRating: 3,
-                        minRating: 1,
-                        direction: Axis.horizontal,
-                        allowHalfRating: true,
-                        itemCount: 5,
-                        itemSize: 20,
-                        itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                        itemBuilder: (context, _) => Icon(
-                          Icons.star,
-                          color: Colors.amber,
-                        ),
-                        onRatingUpdate: (rating) {
-                        },
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: <Widget>[
-                          Column(
-                            children: <Widget>[
-                              Text(
-                                bookEntity.pageCount,
-                                style: TextStyle(
-                                    fontSize: 18,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              Text(
-                                S.of(context).page,
-                                style:
-                                TextStyle(fontSize: 14, color: Colors.grey),
-                              )
-                            ],
-                          ),
-                          Column(
-                            children: <Widget>[
-                              Text(
-                                bookEntity.language,
-                                style: TextStyle(
-                                    fontSize: 18,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              Text(
-                                S.of(context).language,
-                                style:
-                                TextStyle(fontSize: 14, color: Colors.grey),
-                              )
-                            ],
-                          ),
-                          Column(
-                            children: <Widget>[
-                              Text(
-                                bookEntity.releaseTime,
-                                style: TextStyle(
-                                    fontSize: 18,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              Text(
-                                S.of(context).release,
-                                style:
-                                TextStyle(fontSize: 14, color: Colors.grey),
-                              )
-                            ],
-                          )
-                        ],
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Html(
-                        defaultTextStyle: TextStyle(fontFamily: 'serif'),
-                        data: bookEntity.description,
-                      )]
-                    ),
+                body: ScrollConfiguration(
+                  behavior: HideScrollEffectBehavior(),
+                  child: SingleChildScrollView(
+                    child: _buildDetailBookWidget(context),
                   ),
                 ),
               ),
@@ -146,6 +50,109 @@ class BookDetail extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Widget _buildDetailBookWidget(BuildContext context) {
+    return Container(
+                  color: Colors.white,
+                  padding: EdgeInsets.only(left: 15, right: 15),
+                  child: Column(
+                    children: <Widget>[
+                    SizedBox(
+                    height: 28,
+                  ),
+                    Text("${bookEntity.name}",
+                        style: TextStyle(fontSize: 24, color: Colors.black)),
+                    SizedBox(
+                      height: 4,
+                    ),
+                    Text(
+                      "${bookEntity.author}",
+                      style: TextStyle(fontSize: 14, color: Colors.grey),
+                    ),
+                    SizedBox(
+                      height: 4,
+                    ),
+                    RatingBar(
+                      initialRating: 3,
+                      minRating: 1,
+                      direction: Axis.horizontal,
+                      allowHalfRating: true,
+                      itemCount: 5,
+                      itemSize: 20,
+                      itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                      itemBuilder: (context, _) => Icon(
+                        Icons.star,
+                        color: Colors.amber,
+                      ),
+                      onRatingUpdate: (rating) {
+                      },
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        Column(
+                          children: <Widget>[
+                            Text(
+                              bookEntity.pageCount,
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              S.of(context).page,
+                              style:
+                              TextStyle(fontSize: 14, color: Colors.grey),
+                            )
+                          ],
+                        ),
+                        Column(
+                          children: <Widget>[
+                            Text(
+                              bookEntity.language,
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              S.of(context).language,
+                              style:
+                              TextStyle(fontSize: 14, color: Colors.grey),
+                            )
+                          ],
+                        ),
+                        Column(
+                          children: <Widget>[
+                            Text(
+                              bookEntity.releaseTime,
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              S.of(context).release,
+                              style:
+                              TextStyle(fontSize: 14, color: Colors.grey),
+                            )
+                          ],
+                        )
+                      ],
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Html(
+                      defaultTextStyle: TextStyle(fontFamily: 'serif'),
+                      data: bookEntity.description,
+                    )]
+                  ),
+                );
   }
 
   Widget widgetBorrow(BuildContext context) {
@@ -305,4 +312,13 @@ class _MySliverAppBar extends SliverPersistentHeaderDelegate {
 
   @override
   bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) => true;
+}
+
+
+class HideScrollEffectBehavior extends ScrollBehavior {
+  @override
+  Widget buildViewportChrome(
+      BuildContext context, Widget child, AxisDirection axisDirection) {
+    return child;
+  }
 }
