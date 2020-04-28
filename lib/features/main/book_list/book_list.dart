@@ -18,7 +18,7 @@ class BookList extends StatelessWidget {
     return Scaffold(
         body: BlocProvider(
           create: (context) {
-            return BookListBloc(BookRepository(apiServiceInstance));
+            return BookListBloc(RepositoryProvider.of<BookRepository>(context));
           },
           child: BookListWithBlocBody(),
         ));

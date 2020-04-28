@@ -1,4 +1,5 @@
 import 'package:booklibrary2020/common/network/dio.dart';
+import 'package:booklibrary2020/data/cache/book_cache_manager.dart';
 import 'package:booklibrary2020/data/models/book.dart';
 import 'package:booklibrary2020/data/models/category.dart';
 import 'package:booklibrary2020/data/service/api_service.dart';
@@ -6,26 +7,31 @@ import 'package:booklibrary2020/data/service/models/book_response.dart';
 import 'package:booklibrary2020/data/service/models/category_response.dart';
 
 class BookRepository {
-  ApiService _apiService;
+  final ApiService _apiService;
+  final BookCacheManager _bookCacheManager = BookCacheManager();
 
   BookRepository(this._apiService);
 
-  Future<NetworkResponseModel<List<BookEntity>>> getBooks() async {
-    var requestGetBooks = _apiService.getBooks();
-    NetworkResult<BookResponse> getBooksResult =
-        await handleNetworkResult(requestGetBooks);
-
-    if (getBooksResult.isSuccess()) {
+  /// catId = 0 -> All book
+  Future<NetworkResponseModel<List<BookEntity>>> getBooks(FilterBook filterBook) async {
+    if (_bookCacheManager.isCached()) {
       return NetworkResponseModel(
-          responseModel: mapBooksResponse(getBooksResult.response));
+          responseModel: _bookCacheManager.getBooks(filterBook));
     } else {
-      return NetworkResponseModel(error: getBooksResult.error);
+      var requestGetBooks = _apiService.getBooks();
+      var getBooksResult = await handleNetworkResult(requestGetBooks);
+      if (getBooksResult.isSuccess()) {
+        _bookCacheManager.setBooks(mapBooksResponse(getBooksResult.response));
+        return NetworkResponseModel(responseModel: _bookCacheManager.getBooks(filterBook));
+      } else {
+        return NetworkResponseModel(error: getBooksResult.error);
+      }
     }
   }
 
   Future<NetworkResponseModel<List<CategoryEntity>>> getCategories() async {
     var requestGetCategories = _apiService.getCategories();
-    NetworkResult<CategoryResponse> getCategoriesResult =
+    var getCategoriesResult =
         await handleNetworkResult(requestGetCategories);
 
     if (getCategoriesResult.isSuccess()) {

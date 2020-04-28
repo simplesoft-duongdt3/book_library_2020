@@ -1,14 +1,10 @@
-import 'package:booklibrary2020/features/main/category_list/bloc.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-
-import 'package:flappy_search_bar/flappy_search_bar.dart';
-import 'package:flappy_search_bar/search_bar_style.dart';
-
 import 'package:booklibrary2020/data/models/category.dart';
 import 'package:booklibrary2020/data/repo/book_repository.dart';
 import 'package:booklibrary2020/data/service/api_service.dart';
 import 'package:booklibrary2020/features/main/book_list/book_list.dart';
+import 'package:booklibrary2020/features/main/category_list/bloc.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 
@@ -16,11 +12,20 @@ class CategoryList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: BlocProvider(
-        create: (context) {
-          return CategoryBloc(BookRepository(apiServiceInstance));
+      child: RepositoryProvider<BookRepository>(
+        create: (BuildContext context) {
+          return BookRepository(apiServiceInstance);
         },
-        child: CategoryListBody(),
+        child: Builder(
+          builder: (context) {
+            return BlocProvider(
+              create: (context) {
+                return CategoryBloc(RepositoryProvider.of<BookRepository>(context));
+              },
+              child: CategoryListBody(),
+            );
+          }
+        ),
       ),
     );
   }
