@@ -19,8 +19,8 @@ class BookDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Material(
-        child: Column(
+      child: Scaffold(
+        body: Column(
           children: <Widget>[
             Expanded(
               child: NestedScrollView(
@@ -37,9 +37,10 @@ class BookDetail extends StatelessWidget {
                     )
                   ];
                 },
-                body: Container(
-                  padding: EdgeInsets.only(left: 15, right: 15),
-                  child: SingleChildScrollView(
+                body: SingleChildScrollView(
+                  child: Container(
+                    color: Colors.white,
+                    padding: EdgeInsets.only(left: 15, right: 15),
                     child: Column(
                       children: <Widget>[
                       SizedBox(
@@ -135,7 +136,7 @@ class BookDetail extends StatelessWidget {
                         defaultTextStyle: TextStyle(fontFamily: 'serif'),
                         data: bookEntity.description,
                       )]
-                    )
+                    ),
                   ),
                 ),
               ),
@@ -150,7 +151,6 @@ class BookDetail extends StatelessWidget {
   Widget widgetBorrow(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width,
-      color: Colors.white,
       padding: EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
       child: Container(
         height: 50,
@@ -159,7 +159,7 @@ class BookDetail extends StatelessWidget {
             color: Colors.green),
         alignment: Alignment.center,
         child: Text(
-          "BORROW",
+          S.of(context).borrow_book_action,
           style: TextStyle(color: Colors.white),
           textAlign: TextAlign.center,
         ),
@@ -237,7 +237,6 @@ class _MySliverAppBar extends SliverPersistentHeaderDelegate {
             height: expandedHeight / 2 + 40,
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
-                border: Border.all(color: Colors.white, width: 1.0),
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(10),
                     topRight: Radius.circular(10)),

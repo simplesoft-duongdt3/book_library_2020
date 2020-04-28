@@ -22,6 +22,7 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
     "app_name" : MessageLookupByLibrary.simpleMessage("Thư viện sách"),
+    "borrow_book_action" : MessageLookupByLibrary.simpleMessage("MƯỢN SÁCH"),
     "change_language" : MessageLookupByLibrary.simpleMessage("Đổi ngôn ngữ"),
     "hello_text" : MessageLookupByLibrary.simpleMessage("Chào cưng!"),
     "language" : MessageLookupByLibrary.simpleMessage("Ngôn ngữ"),
