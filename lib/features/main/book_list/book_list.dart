@@ -39,11 +39,20 @@ class BookListWithBlocBody extends StatefulWidget {
 }
 
 class _BookListWithBlocBodyState extends State<BookListWithBlocBody> {
+
+  final textController = TextEditingController();
   @override
   void initState() {
     getBooks(context);
     super.initState();
   }
+
+  @override
+  void dispose() {
+    textController.dispose();
+    super.dispose();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -104,14 +113,6 @@ class _BookListWithBlocBodyState extends State<BookListWithBlocBody> {
   }
 
   Widget buildBookListWidget(List<BookEntity> listBook) {
-    final textController = TextEditingController();
-
-    @override
-    void dispose() {
-      textController.dispose();
-      super.dispose();
-    }
-
     return Builder(builder: (context) {
       return Container(
         child: RefreshIndicator(
