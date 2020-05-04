@@ -107,7 +107,7 @@ class _CategoryListBodyState extends State<CategoryListBody> {
             ),
             body: TabBarView(
               children: List<Widget>.generate(listCategory.length, (int index){
-                return BookList();
+                return BookList(listCategory[index].id);
               }),
             )
         ),
