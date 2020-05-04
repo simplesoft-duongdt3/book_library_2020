@@ -19,7 +19,6 @@ class BookListItem extends StatelessWidget {
         Navigator.push(context, MaterialPageRoute(builder: (context) => BookDetail(bookEntity: item)));
       },
       child: Container(
-        margin: EdgeInsets.fromLTRB(28, 8, 28, 8),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.max,

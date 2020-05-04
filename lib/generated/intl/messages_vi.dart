@@ -21,12 +21,18 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
-    "app_name" : MessageLookupByLibrary.simpleMessage("Thư viện sách"),
+    "app_name" : MessageLookupByLibrary.simpleMessage("Trạm đọc"),
     "borrow_book_action" : MessageLookupByLibrary.simpleMessage("MƯỢN SÁCH"),
     "change_language" : MessageLookupByLibrary.simpleMessage("Đổi ngôn ngữ"),
     "hello_text" : MessageLookupByLibrary.simpleMessage("Chào cưng!"),
     "language" : MessageLookupByLibrary.simpleMessage("Ngôn ngữ"),
+    "main_category_tab" : MessageLookupByLibrary.simpleMessage("Danh mục"),
+    "main_newest_tab" : MessageLookupByLibrary.simpleMessage("Sách mới"),
+    "main_search_tab" : MessageLookupByLibrary.simpleMessage("Tìm kiếm"),
+    "main_setting_tab" : MessageLookupByLibrary.simpleMessage("Cấu hình"),
+    "newest_tab_label" : MessageLookupByLibrary.simpleMessage("Mới nhất"),
     "page" : MessageLookupByLibrary.simpleMessage("Trang"),
-    "release" : MessageLookupByLibrary.simpleMessage("Phát hành")
+    "release" : MessageLookupByLibrary.simpleMessage("Phát hành"),
+    "retry_action" : MessageLookupByLibrary.simpleMessage("Thử lại")
   };
 }

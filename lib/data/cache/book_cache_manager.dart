@@ -10,12 +10,16 @@ class BookCacheManager {
 
   void setBooks(List<BookEntity> items) {
     _lastTimeCached = DateTime.now();
-    _items = items;
+    _items = items.toList();
   }
 
   List<BookEntity> getBooks(FilterBook filterBook) {
     Iterable<BookEntity> itemsAfterFilter = _items;
-    if (!filterBook.isGetAllCategory && filterBook.categoryId != null) {
+    if (filterBook.isGetNewestBooks) {
+      var cloneList = _items.toList();
+      cloneList.sort((a, b) => b.updateDate.compareTo(a.updateDate));
+      itemsAfterFilter = cloneList;
+    } else if (filterBook.categoryId != null) {
       itemsAfterFilter = itemsAfterFilter.where((element) => element.categoryId == filterBook.categoryId);
     }
 
@@ -31,8 +35,8 @@ class BookCacheManager {
 
 class FilterBook {
   final int categoryId;
-  final bool isGetAllCategory;
+  final bool isGetNewestBooks;
   final String searchTerm;
 
-  FilterBook({this.categoryId, @required this.isGetAllCategory, this.searchTerm});
+  FilterBook({this.categoryId, @required this.isGetNewestBooks, this.searchTerm});
 }

@@ -57,7 +57,7 @@ class BottomBarCustom extends StatelessWidget {
           height: containerHeight,
           padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
           child: Row(
-            mainAxisAlignment: mainAxisAlignment,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: items.map((item) {
               var index = items.indexOf(item);
               return GestureDetector(
@@ -123,7 +123,7 @@ class _ItemWidget extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 8),
           child: Row(
             mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               IconTheme(

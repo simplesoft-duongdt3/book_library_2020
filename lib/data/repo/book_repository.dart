@@ -5,6 +5,7 @@ import 'package:booklibrary2020/data/models/category.dart';
 import 'package:booklibrary2020/data/service/api_service.dart';
 import 'package:booklibrary2020/data/service/models/book_response.dart';
 import 'package:booklibrary2020/data/service/models/category_response.dart';
+import 'package:intl/intl.dart';
 
 class BookRepository {
   final ApiService _apiService;
@@ -43,6 +44,7 @@ class BookRepository {
   }
 
   List<BookEntity> mapBooksResponse(BookResponse response) {
+    var dateFormat = DateFormat('MM/dd/yyyy');
     return response.feed.entry
         .map((entry) => BookEntity(
               id: int.parse(entry.gsxId.text ?? "0") ?? 0,
@@ -57,8 +59,17 @@ class BookRepository {
               language: entry.gsxLanguage.text ?? "",
               pageCount: entry.gsxPageCount.text ?? "",
               releaseTime: entry.gsxReleaseTime.text ?? "",
+              updateDate: mapUpdateDate(entry.gsxUpdateDate.text, dateFormat)
             ))
         .toList(growable: false);
+  }
+
+  DateTime mapUpdateDate(String updateDate, DateFormat dateFormat) {
+    if(updateDate != null)  {
+      return dateFormat.parse(updateDate);
+    } else {
+      return DateTime.now();
+    }
   }
 
   List<CategoryEntity> mapCategoriesResponse(CategoryResponse response) {

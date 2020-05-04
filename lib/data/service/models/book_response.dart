@@ -52,6 +52,7 @@ class BookEntry {
   BookGsxName _gsxReleaseTime;
   BookGsxName _gsxLanguage;
   BookGsxName _gsxPageCount;
+  BookGsxName _gsxUpdateDate;
 
   BookGsxName get gsxId => _gsxId;
   BookGsxName get gsxName => _gsxName;
@@ -65,10 +66,14 @@ class BookEntry {
   BookGsxName get gsxReleaseTime=> _gsxReleaseTime;
   BookGsxName get gsxLanguage=> _gsxLanguage;
   BookGsxName get gsxPageCount=> _gsxPageCount;
+  BookGsxName get gsxUpdateDate=> _gsxUpdateDate;
 
   BookEntry.fromJson(Map<String, dynamic> json) {
     _gsxPageCount = json['gsx\$pagecount'] != null
         ? new BookGsxName.fromJson(json['gsx\$pagecount'])
+        : null;
+    _gsxUpdateDate = json['gsx\$updatedate'] != null
+        ? new BookGsxName.fromJson(json['gsx\$updatedate'])
         : null;
     _gsxLanguage = json['gsx\$language'] != null
         ? new BookGsxName.fromJson(json['gsx\$language'])
@@ -109,6 +114,9 @@ class BookEntry {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this._gsxLanguage != null) {
       data['gsx\$language'] = this._gsxLanguage.toJson();
+    }
+    if (this._gsxUpdateDate != null) {
+      data['gsx\$updatedate'] = this._gsxUpdateDate.toJson();
     }
     if (this._gsxPageCount != null) {
       data['gsx\$pagecount'] = this._gsxPageCount.toJson();

@@ -6,7 +6,9 @@ import 'package:intl/intl.dart';
 import 'common/crash_reporting/crash_report.dart';
 import 'common/crash_reporting/crash_report_app_runner.dart';
 import 'data/models/language.dart';
+import 'data/repo/book_repository.dart';
 import 'data/repo/language_repository.dart';
+import 'data/service/api_service.dart';
 import 'features/main/main.dart';
 import 'features/main_app/bloc/language_bloc.dart';
 import 'features/main_app/bloc/language_state.dart';
@@ -18,7 +20,8 @@ Future<void> main() async {
   BlocSupervisor.delegate = SimpleBlocDelegate();
   final LanguageRepository languageRepository = LanguageRepository();
   final Language initLanguage = await languageRepository.getCurrentLanguage();
-  MyApp myApp = MyApp(languageBloc: LanguageBloc(initLanguage, languageRepository));
+  MyApp myApp =
+      MyApp(languageBloc: LanguageBloc(initLanguage, languageRepository));
   CrashReportAppRunner().startApp(myApp);
 }
 
@@ -36,18 +39,21 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider<LanguageBloc>.value(
       child: BlocBuilder<LanguageBloc, LanguageState>(
           builder: (BuildContext context, LanguageState state) {
-            return App(languageState: state);
-          }),
+        return RepositoryProvider(
+          create: (BuildContext context) {
+            return BookRepository(apiServiceInstance);
+          },
+          child: App(languageState: state),
+        );
+      }),
       value: widget.languageBloc,
     );
   }
-
 }
 
 class App extends StatefulWidget {
@@ -60,7 +66,6 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> with WidgetsBindingObserver {
-
   @override
   void initState() {
     WidgetsBinding.instance.addObserver(this);
@@ -110,12 +115,14 @@ class _AppState extends State<App> with WidgetsBindingObserver {
     }
   }
 }
+
 class SimpleBlocDelegate extends BlocDelegate {
   @override
   void onError(Bloc bloc, Object error, StackTrace stacktrace) {
     super.onError(bloc, error, stacktrace);
     print('$error, $stacktrace');
-    CrashReport.getInstance().reportError(exception: error, stackTrace: stacktrace);
+    CrashReport.getInstance()
+        .reportError(exception: error, stackTrace: stacktrace);
   }
 
   @override

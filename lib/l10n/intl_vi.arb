@@ -1,9 +1,16 @@
 {
-  "app_name": "Thư viện sách",
+  "@@locale": "vi",
+  "app_name": "Trạm đọc",
   "hello_text": "Chào cưng!",
   "change_language": "Đổi ngôn ngữ",
   "page": "Trang",
   "language": "Ngôn ngữ",
   "release": "Phát hành",
-  "borrow_book_action": "MƯỢN SÁCH"
+  "borrow_book_action": "MƯỢN SÁCH",
+  "retry_action": "Thử lại",
+  "main_newest_tab": "Sách mới",
+  "main_category_tab": "Danh mục",
+  "main_search_tab": "Tìm kiếm",
+  "main_setting_tab": "Cấu hình",
+  "newest_tab_label": "Mới nhất"
 }

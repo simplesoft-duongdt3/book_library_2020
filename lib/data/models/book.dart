@@ -14,6 +14,7 @@ class BookEntity {
   final String releaseTime;
   final String language;
   final String pageCount;
+  final DateTime updateDate;
 
   BookEntity(
       {@required this.id,
@@ -27,5 +28,6 @@ class BookEntity {
       @required this.imageRatio,
       @required this.releaseTime,
       @required this.language,
+      @required this.updateDate,
       @required this.pageCount});
 }

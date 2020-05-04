@@ -3,30 +3,24 @@ import 'package:booklibrary2020/data/repo/book_repository.dart';
 import 'package:booklibrary2020/data/service/api_service.dart';
 import 'package:booklibrary2020/features/main/book_list/book_list.dart';
 import 'package:booklibrary2020/features/main/category_list/bloc.dart';
+import 'package:booklibrary2020/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 
 class CategoryList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: RepositoryProvider<BookRepository>(
-        create: (BuildContext context) {
-          return BookRepository(apiServiceInstance);
-        },
-        child: Builder(
-          builder: (context) {
-            return BlocProvider(
-              create: (context) {
-                return CategoryBloc(RepositoryProvider.of<BookRepository>(context));
-              },
-              child: CategoryListBody(),
-            );
-          }
-        ),
-      ),
+      child: Builder(builder: (context) {
+        return BlocProvider(
+          create: (context) {
+            return CategoryBloc(
+                RepositoryProvider.of<BookRepository>(context));
+          },
+          child: CategoryListBody(),
+        );
+      }),
     );
   }
 }
@@ -48,7 +42,8 @@ class _CategoryListBodyState extends State<CategoryListBody> {
         if (state is ErrorLoadingCategoryListState) {
           return buildErrorWidget();
         } else if (state is SuccessCategoryListState) {
-          return buildDataWidget(state.listCategory);
+          return buildDataWidget(
+              state.listCategory.toList(growable: true), context);
         } else {
           return buildLoadingWidget();
         }
@@ -75,7 +70,7 @@ class _CategoryListBodyState extends State<CategoryListBody> {
                     color: Colors.red,
                     size: 48,
                   ),
-                  Text("Thử lại"),
+                  Text(S.of(context).retry_action),
                 ],
               ),
             ),
@@ -91,9 +86,10 @@ class _CategoryListBodyState extends State<CategoryListBody> {
     );
   }
 
-  Widget buildDataWidget(List<CategoryEntity> listCategory) {
-    return  Container(
-      child: DefaultTabController (
+  Widget buildDataWidget(
+      List<CategoryEntity> listCategory, BuildContext context) {
+    return Container(
+      child: DefaultTabController(
         length: listCategory.length,
         child: Scaffold(
             appBar: TabBar(
@@ -106,11 +102,10 @@ class _CategoryListBodyState extends State<CategoryListBody> {
               unselectedLabelColor: Colors.grey,
             ),
             body: TabBarView(
-              children: List<Widget>.generate(listCategory.length, (int index){
-                return BookList(listCategory[index].id);
+              children: List<Widget>.generate(listCategory.length, (int index) {
+                return BookList(categoryId: listCategory[index].id, isShowSearchBox: false);
               }),
-            )
-        ),
+            )),
       ),
     );
   }
@@ -135,10 +130,12 @@ class UnderlineTabIndicator extends Decoration {
     this.borderSide = const BorderSide(width: 5.0, color: Colors.blue),
     this.insets = EdgeInsets.zero,
   });
+
   final BorderSide borderSide;
   final EdgeInsetsGeometry insets;
+
   @override
-  _UnderlinePainter createBoxPainter([ VoidCallback onChanged ]) {
+  _UnderlinePainter createBoxPainter([VoidCallback onChanged]) {
     return _UnderlinePainter(this, onChanged);
   }
 }
@@ -151,6 +148,7 @@ class _UnderlinePainter extends BoxPainter {
   final UnderlineTabIndicator decoration;
 
   BorderSide get borderSide => decoration.borderSide;
+
   EdgeInsetsGeometry get insets => decoration.insets;
 
   Rect _indicatorRectFor(Rect rect, TextDirection textDirection) {
@@ -158,18 +156,16 @@ class _UnderlinePainter extends BoxPainter {
     double wantWidth = 20;
     double cw = (indicator.left + indicator.right) / 2;
     return Rect.fromLTWH(cw - wantWidth / 2,
-    indicator.bottom - borderSide.width, wantWidth, borderSide.width);
+        indicator.bottom - borderSide.width, wantWidth, borderSide.width);
   }
 
   @override
   void paint(Canvas canvas, Offset offset, ImageConfiguration configuration) {
     final Rect rect = offset & configuration.size;
     final TextDirection textDirection = configuration.textDirection;
-    final Rect indicator = _indicatorRectFor(rect, textDirection).deflate(borderSide.width / 2.0);
+    final Rect indicator =
+        _indicatorRectFor(rect, textDirection).deflate(borderSide.width / 2.0);
     final Paint paint = borderSide.toPaint()..strokeCap = StrokeCap.square;
     canvas.drawLine(indicator.bottomLeft, indicator.bottomRight, paint);
   }
 }
-
-
-

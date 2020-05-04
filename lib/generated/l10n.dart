@@ -29,7 +29,7 @@ class S {
 
   String get app_name {
     return Intl.message(
-      'Book library',
+      'Book station',
       name: 'app_name',
       desc: '',
       args: [],
@@ -85,6 +85,60 @@ class S {
     return Intl.message(
       'BORROW',
       name: 'borrow_book_action',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get retry_action {
+    return Intl.message(
+      'Retry',
+      name: 'retry_action',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get main_newest_tab {
+    return Intl.message(
+      'Newest',
+      name: 'main_newest_tab',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get main_category_tab {
+    return Intl.message(
+      'Category',
+      name: 'main_category_tab',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get main_search_tab {
+    return Intl.message(
+      'Search',
+      name: 'main_search_tab',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get main_setting_tab {
+    return Intl.message(
+      'Setting',
+      name: 'main_setting_tab',
+      desc: '',
+      args: [],
+    );
+  }
+
+  String get newest_tab_label {
+    return Intl.message(
+      'Newest',
+      name: 'newest_tab_label',
       desc: '',
       args: [],
     );

@@ -24,9 +24,7 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
 
   Stream<CategoryState> handleGetItemsEvent() async* {
     yield LoadingCategoryListState();
-    NetworkResponseModel<
-        List<CategoryEntity>> categories = await _bookRepository
-        .getCategories();
+    var categories = await _bookRepository.getCategories();
 
     if (categories.isSuccess()) {
       yield SuccessCategoryListState(categories.responseModel);

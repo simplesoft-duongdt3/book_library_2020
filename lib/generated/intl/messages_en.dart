@@ -21,12 +21,18 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
-    "app_name" : MessageLookupByLibrary.simpleMessage("Book library"),
+    "app_name" : MessageLookupByLibrary.simpleMessage("Book station"),
     "borrow_book_action" : MessageLookupByLibrary.simpleMessage("BORROW"),
     "change_language" : MessageLookupByLibrary.simpleMessage("Change language"),
     "hello_text" : MessageLookupByLibrary.simpleMessage("Hello!"),
     "language" : MessageLookupByLibrary.simpleMessage("Language"),
+    "main_category_tab" : MessageLookupByLibrary.simpleMessage("Category"),
+    "main_newest_tab" : MessageLookupByLibrary.simpleMessage("Newest"),
+    "main_search_tab" : MessageLookupByLibrary.simpleMessage("Search"),
+    "main_setting_tab" : MessageLookupByLibrary.simpleMessage("Setting"),
+    "newest_tab_label" : MessageLookupByLibrary.simpleMessage("Newest"),
     "page" : MessageLookupByLibrary.simpleMessage("Page"),
-    "release" : MessageLookupByLibrary.simpleMessage("Release")
+    "release" : MessageLookupByLibrary.simpleMessage("Release"),
+    "retry_action" : MessageLookupByLibrary.simpleMessage("Retry")
   };
 }

@@ -1,9 +1,16 @@
 {
-  "app_name": "Book library",
+  "@@locale": "en",
+  "app_name": "Book station",
   "hello_text": "Hello!",
   "change_language": "Change language",
   "page": "Page",
    "language": "Language",
    "release": "Release",
-  "borrow_book_action": "BORROW"
+  "borrow_book_action": "BORROW",
+  "retry_action": "Retry",
+  "main_newest_tab": "Newest",
+  "main_category_tab": "Category",
+  "main_search_tab": "Search",
+  "main_setting_tab": "Setting",
+  "newest_tab_label": "Newest"
 }
