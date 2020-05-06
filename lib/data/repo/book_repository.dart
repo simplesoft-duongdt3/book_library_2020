@@ -1,5 +1,6 @@
 import 'package:booklibrary2020/common/network/dio.dart';
 import 'package:booklibrary2020/data/cache/book_cache_manager.dart';
+import 'package:booklibrary2020/data/models/CategoryBookItems.dart';
 import 'package:booklibrary2020/data/models/book.dart';
 import 'package:booklibrary2020/data/models/category.dart';
 import 'package:booklibrary2020/data/service/api_service.dart';
@@ -38,6 +39,39 @@ class BookRepository {
     if (getCategoriesResult.isSuccess()) {
       return NetworkResponseModel(
           responseModel: mapCategoriesResponse(getCategoriesResult.response));
+    } else {
+      return NetworkResponseModel(error: getCategoriesResult.error);
+    }
+  }
+
+  Future<NetworkResponseModel<List<CategoryBookItemsEntity>>> getCategoryBookItems() async {
+    var requestGetCategories = _apiService.getCategories();
+    var getCategoriesResult =
+        await handleNetworkResult(requestGetCategories);
+
+    if (getCategoriesResult.isSuccess()) {
+      var categories = mapCategoriesResponse(getCategoriesResult.response);
+      var categoryBookItemsEntices = <CategoryBookItemsEntity>[];
+      for (var i = 0; i < categories.length; i++) {
+        var category = categories[i];
+        var filter = FilterBook(categoryId: category.id, isGetNewestBooks: true);
+        var booksResult = await getBooks(filter);
+        var books = [];
+        if (booksResult.isSuccess()) {
+          if (booksResult.responseModel.length > 5) {
+            books = booksResult.responseModel.sublist(0, 5);
+          } else {
+            books = booksResult.responseModel;
+          }
+        }
+        var categoryBookItem = CategoryBookItemsEntity(
+          category: category,
+          books: books
+        );
+        categoryBookItemsEntices.add(categoryBookItem);
+      }
+      return NetworkResponseModel(
+          responseModel: categoryBookItemsEntices);
     } else {
       return NetworkResponseModel(error: getCategoriesResult.error);
     }

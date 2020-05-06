@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:booklibrary2020/common/common.dart';
+import 'package:booklibrary2020/data/cache/book_cache_manager.dart';
 import 'package:booklibrary2020/data/models/category.dart';
 import 'package:booklibrary2020/data/repo/book_repository.dart';
 import 'package:booklibrary2020/features/main/category_list/category_list.dart';
@@ -18,13 +19,13 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
     CategoryEvent event,
   ) async* {
     if (event is GetCategoryItemsEvent) {
-      yield* handleGetItemsEvent();
+      yield* handleGetCategoryItemsEvent();
     }
   }
 
-  Stream<CategoryState> handleGetItemsEvent() async* {
+  Stream<CategoryState> handleGetCategoryItemsEvent() async* {
     yield LoadingCategoryListState();
-    var categories = await _bookRepository.getCategories();
+    var categories = await _bookRepository.getCategoryBookItems();
 
     if (categories.isSuccess()) {
       yield SuccessCategoryListState(categories.responseModel);
