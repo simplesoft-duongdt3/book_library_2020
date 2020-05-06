@@ -4,8 +4,11 @@ import 'package:flutter/cupertino.dart';
 class BookCacheManager {
   DateTime _lastTimeCached;
   List<BookEntity> _items;
+
   bool isCached() {
-    return _items != null && (_lastTimeCached != null && DateTime.now().difference(_lastTimeCached).inMinutes < 30);
+    return _items != null &&
+        (_lastTimeCached != null &&
+            DateTime.now().difference(_lastTimeCached).inMinutes < 30);
   }
 
   void setBooks(List<BookEntity> items) {
@@ -13,30 +16,58 @@ class BookCacheManager {
     _items = items.toList();
   }
 
-  List<BookEntity> getBooks(FilterBook filterBook) {
-    Iterable<BookEntity> itemsAfterFilter = _items;
-    if (filterBook.isGetNewestBooks) {
-      var cloneList = _items.toList();
-      cloneList.sort((a, b) => b.updateDate.compareTo(a.updateDate));
-      itemsAfterFilter = cloneList;
-    } else if (filterBook.categoryId != null) {
-      itemsAfterFilter = itemsAfterFilter.where((element) => element.categoryId == filterBook.categoryId);
-    }
+  List<BookEntity> getBooks(GetBookRequest filterBookRequest) {
+    var cloneList = _items.toList();
+    cloneList.sort((a, b) => b.updateDate.compareTo(a.updateDate));
+    Iterable<BookEntity> itemsAfterFilter = cloneList;
 
-    if (filterBook.searchTerm != null) {
-      itemsAfterFilter = itemsAfterFilter.where((element) {
-        return element.name.contains(filterBook.searchTerm) || element.author.contains(filterBook.searchTerm) || element.description.contains(filterBook.searchTerm);
-      });
+    if (filterBookRequest is GetAllGetBookRequest) {
+      //NOTHING TO DO here get all books
+    } else if (filterBookRequest is SearchGetBookRequest) {
+      if (filterBookRequest.categoryId != null &&
+          filterBookRequest.categoryId > 0) {
+        itemsAfterFilter = itemsAfterFilter
+            .where((book) => book.categoryId == filterBookRequest.categoryId);
+      }
+
+      if (filterBookRequest.searchTerm != null &&
+          filterBookRequest.searchTerm.isNotEmpty) {
+        itemsAfterFilter = itemsAfterFilter.where((book) {
+          return book.name.contains(filterBookRequest.searchTerm) ||
+              book.author.contains(filterBookRequest.searchTerm) ||
+              book.description.contains(filterBookRequest.searchTerm);
+        });
+      }
+    } else if (filterBookRequest is CategoryFilterGetBookRequest) {
+      if (filterBookRequest.categoryId != null &&
+          filterBookRequest.categoryId > 0) {
+        itemsAfterFilter = itemsAfterFilter
+            .where((book) => book.categoryId == filterBookRequest.categoryId);
+      }
     }
 
     return itemsAfterFilter.toList(growable: false);
   }
 }
 
-class FilterBook {
-  final int categoryId;
-  final bool isGetNewestBooks;
-  final String searchTerm;
+abstract class GetBookRequest {}
 
-  FilterBook({this.categoryId, @required this.isGetNewestBooks, this.searchTerm});
+class GetAllGetBookRequest extends GetBookRequest {}
+
+class SearchGetBookRequest extends GetBookRequest {
+  final String searchTerm;
+  final int categoryId;
+
+  SearchGetBookRequest({
+    @required this.searchTerm,
+    @required this.categoryId,
+  });
+}
+
+class CategoryFilterGetBookRequest extends GetBookRequest {
+  final int categoryId;
+
+  CategoryFilterGetBookRequest({
+    @required this.categoryId,
+  });
 }
