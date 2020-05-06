@@ -1,12 +1,16 @@
-import 'package:booklibrary2020/data/models/category.dart';
-import 'package:booklibrary2020/data/repo/book_repository.dart';
-import 'package:booklibrary2020/data/service/api_service.dart';
+import 'package:booklibrary2020/data/models/book.dart';
+import 'package:booklibrary2020/features/main/book_detail.dart';
 import 'package:booklibrary2020/features/main/book_list/book_list.dart';
-import 'package:booklibrary2020/features/main/category_list/bloc.dart';
-import 'package:booklibrary2020/generated/l10n.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'dart:ui';
+
+import 'package:booklibrary2020/data/models/CategoryBookItems.dart';
+import 'package:booklibrary2020/data/repo/book_repository.dart';
+import 'package:booklibrary2020/features/main/category_list/bloc.dart';
+import 'package:booklibrary2020/generated/l10n.dart';
 
 class CategoryList extends StatelessWidget {
   @override
@@ -86,26 +90,112 @@ class _CategoryListBodyState extends State<CategoryListBody> {
     );
   }
 
-  Widget buildDataWidget(
-      List<CategoryEntity> listCategory, BuildContext context) {
+  Widget buildDataWidget(List<CategoryBookItemsEntity> listCategory, BuildContext context) {
+    return Scaffold(
+      body: ListView.builder(
+        itemCount: listCategory.length,
+        itemBuilder: (_, i) {
+          return _horizontalListView(listCategory[i]);
+        },
+      ),
+    );
+  }
+
+  Widget _horizontalListView(CategoryBookItemsEntity item) {
     return Container(
-      child: DefaultTabController(
-        length: listCategory.length,
-        child: Scaffold(
-            appBar: TabBar(
-              indicator: UnderlineTabIndicator(),
-              isScrollable: true,
-              tabs: List<Widget>.generate(listCategory.length, (int index) {
-                return Tab(text: listCategory[index].name);
-              }),
-              labelColor: Colors.black,
-              unselectedLabelColor: Colors.grey,
+      height: MediaQuery.of(context).size.width / 2.5 * 1.5 + 20,
+      child: Column(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text(item.category.name,),
+                InkWell(
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => BookList(categoryId: item.category.id, isShowSearchBox: true,)));
+                  },
+                    child: Icon(Icons.more_vert)
+                ),
+              ],
             ),
-            body: TabBarView(
-              children: List<Widget>.generate(listCategory.length, (int index) {
-                return BookList(categoryId: listCategory[index].id, isShowSearchBox: false);
-              }),
-            )),
+          ),
+          Expanded(
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: item.books.length,
+              itemBuilder: (_, i) => _buildBookItem(bookEntity: item.books[i]),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildBookItem({BookEntity bookEntity}) {
+    return InkWell(
+      onTap: ()  {
+        Navigator.push(context, MaterialPageRoute(builder: (context) => BookDetail(
+          bookEntity: bookEntity,
+        )));
+      },
+      child: Container(
+        width: MediaQuery.of(context).size.width / 2.5,
+        margin: EdgeInsets.all(8),
+
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5.0),
+            border: Border.all(color: Colors.grey, width: 0.3)),
+        child: ClipRRect(
+          clipBehavior: Clip.antiAlias,
+          borderRadius: BorderRadius.circular(5),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              CachedNetworkImage(
+                errorWidget: (context, url, error) =>
+                    Icon(Icons.error_outline, color: Colors.red, size: 28,),
+                imageUrl: bookEntity.thumbUrl,
+                width: MediaQuery.of(context).size.width / 2.5,
+                height: MediaQuery.of(context).size.width / 2.5 * 1.5 / 2,
+                fit: BoxFit.fill,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 5.0,
+                  horizontal: 5.0
+                ),
+                child: Text(
+                  bookEntity.name,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold
+                  ),
+                ),
+              ),
+
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                    vertical: 5.0,
+                    horizontal: 5.0
+                ),
+                child: Text(
+                  bookEntity.author,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                      fontSize: 13,
+                      color: Color.fromRGBO(135, 135, 135, 1.0)
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -125,47 +215,4 @@ class _CategoryListBodyState extends State<CategoryListBody> {
   }
 }
 
-class UnderlineTabIndicator extends Decoration {
-  const UnderlineTabIndicator({
-    this.borderSide = const BorderSide(width: 5.0, color: Colors.blue),
-    this.insets = EdgeInsets.zero,
-  });
 
-  final BorderSide borderSide;
-  final EdgeInsetsGeometry insets;
-
-  @override
-  _UnderlinePainter createBoxPainter([VoidCallback onChanged]) {
-    return _UnderlinePainter(this, onChanged);
-  }
-}
-
-class _UnderlinePainter extends BoxPainter {
-  _UnderlinePainter(this.decoration, VoidCallback onChanged)
-      : assert(decoration != null),
-        super(onChanged);
-
-  final UnderlineTabIndicator decoration;
-
-  BorderSide get borderSide => decoration.borderSide;
-
-  EdgeInsetsGeometry get insets => decoration.insets;
-
-  Rect _indicatorRectFor(Rect rect, TextDirection textDirection) {
-    final Rect indicator = insets.resolve(textDirection).deflateRect(rect);
-    double wantWidth = 20;
-    double cw = (indicator.left + indicator.right) / 2;
-    return Rect.fromLTWH(cw - wantWidth / 2,
-        indicator.bottom - borderSide.width, wantWidth, borderSide.width);
-  }
-
-  @override
-  void paint(Canvas canvas, Offset offset, ImageConfiguration configuration) {
-    final Rect rect = offset & configuration.size;
-    final TextDirection textDirection = configuration.textDirection;
-    final Rect indicator =
-        _indicatorRectFor(rect, textDirection).deflate(borderSide.width / 2.0);
-    final Paint paint = borderSide.toPaint()..strokeCap = StrokeCap.square;
-    canvas.drawLine(indicator.bottomLeft, indicator.bottomRight, paint);
-  }
-}
