@@ -1,3 +1,4 @@
+import 'package:booklibrary2020/features/main/category_list/category_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -95,6 +96,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
       initialRoute: MainScreen.screenName,
       routes: {
         MainScreen.screenName: (context) => MainScreen(),
+        CategoryDetail.screenName: (context) => CategoryDetail(),
       },
       localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
         S.delegate,

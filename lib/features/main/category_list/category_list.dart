@@ -1,6 +1,7 @@
 import 'package:booklibrary2020/data/models/book.dart';
 import 'package:booklibrary2020/features/main/book_detail.dart';
 import 'package:booklibrary2020/features/main/book_list/book_list.dart';
+import 'package:booklibrary2020/features/main/category_list/category_detail.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -90,14 +91,13 @@ class _CategoryListBodyState extends State<CategoryListBody> {
     );
   }
 
-  Widget buildDataWidget(List<CategoryBookItemsEntity> listCategory, BuildContext context) {
-    return Scaffold(
-      body: ListView.builder(
-        itemCount: listCategory.length,
-        itemBuilder: (_, i) {
-          return _horizontalListView(listCategory[i]);
-        },
-      ),
+  Widget buildDataWidget(
+      List<CategoryBookItemsEntity> listCategory, BuildContext context) {
+    return ListView.builder(
+      itemCount: listCategory.length,
+      itemBuilder: (_, i) {
+        return _horizontalListView(listCategory[i]);
+      },
     );
   }
 
@@ -111,13 +111,20 @@ class _CategoryListBodyState extends State<CategoryListBody> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Text(item.category.name,),
-                InkWell(
-                  onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => BookList(categoryId: item.category.id, isShowSearchBox: true,)));
-                  },
-                    child: Icon(Icons.more_vert)
+                Text(
+                  item.category.name,
                 ),
+                InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context,
+                        CategoryDetail.screenName,
+                        arguments: CategoryDetailScreenArguments(
+                            categoryId: item.category.id,
+                            categoryName: item.category.name),
+                      );
+                    },
+                    child: Icon(Icons.more_vert)),
               ],
             ),
           ),
@@ -135,15 +142,17 @@ class _CategoryListBodyState extends State<CategoryListBody> {
 
   Widget _buildBookItem({BookEntity bookEntity}) {
     return InkWell(
-      onTap: ()  {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => BookDetail(
-          bookEntity: bookEntity,
-        )));
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => BookDetail(
+                      bookEntity: bookEntity,
+                    )));
       },
       child: Container(
         width: MediaQuery.of(context).size.width / 2.5,
         margin: EdgeInsets.all(8),
-
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5.0),
             border: Border.all(color: Colors.grey, width: 0.3)),
