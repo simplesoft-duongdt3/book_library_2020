@@ -1,10 +1,6 @@
-import 'package:booklibrary2020/data/models/language.dart';
 import 'package:booklibrary2020/features/main/book_list/book_list.dart';
-import 'package:booklibrary2020/features/main_app/bloc/language_bloc.dart';
-import 'package:booklibrary2020/features/main_app/bloc/language_event.dart';
 import 'package:booklibrary2020/generated/l10n.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'bottom_bar_custom.dart';
 import 'category_list/category_list.dart';
@@ -16,6 +12,7 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text(S.of(context).app_name),
         centerTitle: true,

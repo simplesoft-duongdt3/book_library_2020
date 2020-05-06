@@ -16,25 +16,18 @@ class BookListBloc extends Bloc<BookListEvent, BookListState> {
     BookListEvent event,
   ) async* {
     if (event is GetItemsEvent) {
-      yield* handleGetItemsEvent(event.categoryId);
+      yield* handleGetItemsEvent(event.categoryId, null);
     } else if (event is SearchItemsEvent) {
-      yield* handleSearchItemsEvent(event.categoryId, event.searchTerm);
+      yield* handleGetItemsEvent(event.categoryId, event.searchTerm);
     }
   }
 
-  Stream<BookListState> handleSearchItemsEvent(int categoryId, String searchTerm) async* {
-    var books = await _bookRepository.getBooks(FilterBook(isGetNewestBooks: categoryId <= 0, categoryId: categoryId, searchTerm: searchTerm));
-    if (books.isSuccess()) {
-      yield SuccessBookListState(books.responseModel);
-    } else {
-      yield ErrorBookListState();
+  Stream<BookListState> handleGetItemsEvent(int categoryId, String searchTerm) async* {
+    GetBookRequest filterBookRequest = GetAllGetBookRequest();
+    if ((categoryId != null && categoryId > 0) || (searchTerm != null && searchTerm.isNotEmpty)) {
+      filterBookRequest = SearchGetBookRequest(categoryId: categoryId, searchTerm: searchTerm);
     }
-  }
-
-  Stream<BookListState> handleGetItemsEvent(int categoryId) async* {
-    yield LoadingBookListState();
-    var books = await _bookRepository.getBooks(FilterBook(isGetNewestBooks: categoryId <= 0, categoryId: categoryId));
-
+    var books = await _bookRepository.getBooks(filterBookRequest);
     if (books.isSuccess()) {
       yield SuccessBookListState(books.responseModel);
     } else {

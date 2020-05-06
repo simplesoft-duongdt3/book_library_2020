@@ -15,16 +15,16 @@ class BookRepository {
   BookRepository(this._apiService);
 
   /// catId = 0 -> All book
-  Future<NetworkResponseModel<List<BookEntity>>> getBooks(FilterBook filterBook) async {
+  Future<NetworkResponseModel<List<BookEntity>>> getBooks(GetBookRequest filterBookRequest) async {
     if (_bookCacheManager.isCached()) {
       return NetworkResponseModel(
-          responseModel: _bookCacheManager.getBooks(filterBook));
+          responseModel: _bookCacheManager.getBooks(filterBookRequest));
     } else {
       var requestGetBooks = _apiService.getBooks();
       var getBooksResult = await handleNetworkResult(requestGetBooks);
       if (getBooksResult.isSuccess()) {
         _bookCacheManager.setBooks(mapBooksResponse(getBooksResult.response));
-        return NetworkResponseModel(responseModel: _bookCacheManager.getBooks(filterBook));
+        return NetworkResponseModel(responseModel: _bookCacheManager.getBooks(filterBookRequest));
       } else {
         return NetworkResponseModel(error: getBooksResult.error);
       }
@@ -54,8 +54,7 @@ class BookRepository {
       var categoryBookItemsEntices = <CategoryBookItemsEntity>[];
       for (var i = 0; i < categories.length; i++) {
         var category = categories[i];
-        var filter = FilterBook(categoryId: category.id, isGetNewestBooks: true);
-        var booksResult = await getBooks(filter);
+        var booksResult = await getBooks(CategoryFilterGetBookRequest(categoryId: category.id));
         var books = [];
         if (booksResult.isSuccess()) {
           if (booksResult.responseModel.length > 5) {
@@ -68,7 +67,9 @@ class BookRepository {
           category: category,
           books: books
         );
-        categoryBookItemsEntices.add(categoryBookItem);
+        if (categoryBookItem.books.isNotEmpty) {
+          categoryBookItemsEntices.add(categoryBookItem);
+        }
       }
       return NetworkResponseModel(
           responseModel: categoryBookItemsEntices);
