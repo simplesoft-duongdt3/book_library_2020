@@ -1,6 +1,5 @@
 import 'package:booklibrary2020/data/models/book.dart';
 import 'package:booklibrary2020/features/main/book_detail.dart';
-import 'package:booklibrary2020/features/main/book_list/book_list.dart';
 import 'package:booklibrary2020/features/main/category_list/category_detail.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -20,8 +19,7 @@ class CategoryList extends StatelessWidget {
       child: Builder(builder: (context) {
         return BlocProvider(
           create: (context) {
-            return CategoryBloc(
-                RepositoryProvider.of<BookRepository>(context));
+            return CategoryBloc(RepositoryProvider.of<BookRepository>(context));
           },
           child: CategoryListBody(),
         );
@@ -93,7 +91,11 @@ class _CategoryListBodyState extends State<CategoryListBody> {
 
   Widget buildDataWidget(
       List<CategoryBookItemsEntity> listCategory, BuildContext context) {
-    return ListView.builder(
+    return ListView.separated(
+      shrinkWrap: true,
+      separatorBuilder: (context, index) => Divider(
+        color: Color.fromARGB(135, 135, 135, 1),
+      ),
       itemCount: listCategory.length,
       itemBuilder: (_, i) {
         return _horizontalListView(listCategory[i]);
@@ -103,34 +105,40 @@ class _CategoryListBodyState extends State<CategoryListBody> {
 
   Widget _horizontalListView(CategoryBookItemsEntity item) {
     return Container(
-      height: MediaQuery.of(context).size.width / 2.5 + 50,
+      height: MediaQuery.of(context).size.width / 2.9 + 40,
       child: Column(
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text(
-                  item.category.name,
-                  style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold
-                  ),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: InkWell(
+              onTap: () {
+                Navigator.pushNamed(
+                  context,
+                  CategoryDetail.screenName,
+                  arguments: CategoryDetailScreenArguments(
+                      categoryId: item.category.id,
+                      categoryName: item.category.name),
+                );
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 4),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Expanded(
+                      child: Text(
+                        item.category.name,
+                        maxLines: 1,
+                        style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    Icon(Icons.navigate_next),
+                  ],
                 ),
-                InkWell(
-                    onTap: () {
-                      Navigator.pushNamed(
-                        context,
-                        CategoryDetail.screenName,
-                        arguments: CategoryDetailScreenArguments(
-                            categoryId: item.category.id,
-                            categoryName: item.category.name),
-                      );
-                    },
-                    child: Icon(Icons.navigate_next)),
-              ],
+              ),
             ),
           ),
           Expanded(
@@ -156,9 +164,9 @@ class _CategoryListBodyState extends State<CategoryListBody> {
                     )));
       },
       child: Container(
-        width: MediaQuery.of(context).size.width / 2.5,
-        height: MediaQuery.of(context).size.width / 2.5,
-        margin: EdgeInsets.all(8),
+        width: MediaQuery.of(context).size.width / 2.9,
+        height: MediaQuery.of(context).size.width / 2.9,
+        margin: EdgeInsets.only(left: 16, bottom: 8, top: 4),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5.0),
             border: Border.all(color: Colors.grey, width: 0.3)),
@@ -168,55 +176,47 @@ class _CategoryListBodyState extends State<CategoryListBody> {
           child: Stack(
             children: <Widget>[
               CachedNetworkImage(
-                errorWidget: (context, url, error) =>
-                    Icon(Icons.error_outline, color: Colors.red, size: 28,),
+                errorWidget: (context, url, error) => Icon(
+                  Icons.error_outline,
+                  color: Colors.red,
+                  size: 28,
+                ),
                 imageUrl: bookEntity.thumbUrl,
-                width: MediaQuery.of(context).size.width / 2.5,
-                height: MediaQuery.of(context).size.width / 2.5,
+                width: MediaQuery.of(context).size.width / 2.9,
+                height: MediaQuery.of(context).size.width / 2.9,
                 fit: BoxFit.fill,
               ),
               Container(
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.center,
-                    end: Alignment.bottomCenter,
-                    colors: [Colors.transparent, Colors.black],
-                    stops: [0.0, 1],
-                  )
-                ),
+                    gradient: LinearGradient(
+                  begin: Alignment.center,
+                  end: Alignment.bottomCenter,
+                  colors: [Colors.transparent, Colors.black],
+                  stops: [0.0, 1],
+                )),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
                     Padding(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 5.0,
-                        horizontal: 5.0
-                      ),
+                      padding: const EdgeInsets.only(top: 4, left: 4, right: 4),
                       child: Text(
                         bookEntity.name,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
-                          fontSize: 13,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold
-                        ),
+                            fontSize: 13,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold),
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 5.0,
-                          horizontal: 5.0
-                      ),
+                      padding: const EdgeInsets.only(top: 2, left: 4, right: 4, bottom: 4),
                       child: Text(
                         bookEntity.author,
-                        maxLines: 2,
+                        maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                            fontSize: 13,
-                            color: Colors.white
-                        ),
+                        style: TextStyle(fontSize: 11, color: Colors.white),
                       ),
                     ),
                   ],
@@ -243,5 +243,3 @@ class _CategoryListBodyState extends State<CategoryListBody> {
     super.initState();
   }
 }
-
-

@@ -1,6 +1,6 @@
-
 import 'package:booklibrary2020/data/models/book.dart';
 import 'package:booklibrary2020/generated/l10n.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -30,8 +30,8 @@ class BookDetail extends StatelessWidget {
                       delegate: _MySliverAppBar(
                           imageHeight: imageHeight,
                           ratio: bookEntity.imageRatio,
-                          logoUrl: bookEntity.thumbUrl,
-                      title: bookEntity.name),
+                          logoUrl: bookEntity.imageUrl,
+                          title: bookEntity.name),
                       pinned: true,
                       floating: true,
                     )
@@ -54,105 +54,99 @@ class BookDetail extends StatelessWidget {
 
   Widget _buildDetailBookWidget(BuildContext context) {
     return Container(
-                  color: Colors.white,
-                  padding: EdgeInsets.only(left: 15, right: 15),
-                  child: Column(
-                    children: <Widget>[
-                    SizedBox(
-                    height: 28,
-                  ),
-                    Text("${bookEntity.name}",
-                        style: TextStyle(fontSize: 24, color: Colors.black)),
-                    SizedBox(
-                      height: 4,
-                    ),
-                    Text(
-                      "${bookEntity.author}",
-                      style: TextStyle(fontSize: 14, color: Colors.grey),
-                    ),
-                    SizedBox(
-                      height: 4,
-                    ),
-                    RatingBar(
-                      initialRating: 3,
-                      minRating: 1,
-                      direction: Axis.horizontal,
-                      allowHalfRating: true,
-                      itemCount: 5,
-                      itemSize: 20,
-                      itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-                      itemBuilder: (context, _) => Icon(
-                        Icons.star,
-                        color: Colors.amber,
-                      ),
-                      onRatingUpdate: (rating) {
-                      },
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: <Widget>[
-                        Column(
-                          children: <Widget>[
-                            Text(
-                              bookEntity.pageCount,
-                              style: TextStyle(
-                                  fontSize: 18,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              S.of(context).page,
-                              style:
-                              TextStyle(fontSize: 14, color: Colors.grey),
-                            )
-                          ],
-                        ),
-                        Column(
-                          children: <Widget>[
-                            Text(
-                              bookEntity.language,
-                              style: TextStyle(
-                                  fontSize: 18,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              S.of(context).language,
-                              style:
-                              TextStyle(fontSize: 14, color: Colors.grey),
-                            )
-                          ],
-                        ),
-                        Column(
-                          children: <Widget>[
-                            Text(
-                              bookEntity.releaseTime,
-                              style: TextStyle(
-                                  fontSize: 18,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              S.of(context).release,
-                              style:
-                              TextStyle(fontSize: 14, color: Colors.grey),
-                            )
-                          ],
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Html(
-                      defaultTextStyle: TextStyle(fontFamily: 'serif'),
-                      data: bookEntity.description,
-                    )]
-                  ),
-                );
+      color: Colors.white,
+      padding: EdgeInsets.only(left: 15, right: 15),
+      child: Column(children: <Widget>[
+        SizedBox(
+          height: 28,
+        ),
+        Text("${bookEntity.name}",
+            style: TextStyle(fontSize: 24, color: Colors.black)),
+        SizedBox(
+          height: 4,
+        ),
+        Text(
+          "${bookEntity.author}",
+          style: TextStyle(fontSize: 14, color: Colors.grey),
+        ),
+        SizedBox(
+          height: 4,
+        ),
+        RatingBar(
+          initialRating: 5,
+          minRating: 1,
+          direction: Axis.horizontal,
+          allowHalfRating: true,
+          itemCount: 5,
+          itemSize: 20,
+          itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+          itemBuilder: (context, _) => Icon(
+            Icons.star,
+            color: Colors.amber,
+          ),
+          onRatingUpdate: (rating) {},
+        ),
+        SizedBox(
+          height: 20,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+            Column(
+              children: <Widget>[
+                Text(
+                  bookEntity.pageCount,
+                  style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  S.of(context).page,
+                  style: TextStyle(fontSize: 14, color: Colors.grey),
+                )
+              ],
+            ),
+            Column(
+              children: <Widget>[
+                Text(
+                  bookEntity.language,
+                  style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  S.of(context).language,
+                  style: TextStyle(fontSize: 14, color: Colors.grey),
+                )
+              ],
+            ),
+            Column(
+              children: <Widget>[
+                Text(
+                  bookEntity.releaseTime,
+                  style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  S.of(context).release,
+                  style: TextStyle(fontSize: 14, color: Colors.grey),
+                )
+              ],
+            )
+          ],
+        ),
+        SizedBox(
+          height: 20,
+        ),
+        Html(
+          data: bookEntity.description,
+        )
+      ]),
+    );
   }
 
   Widget widgetBorrow(BuildContext context) {
@@ -182,14 +176,18 @@ class _MySliverAppBar extends SliverPersistentHeaderDelegate {
   final String title;
   double expandedHeight;
 
-  _MySliverAppBar({@required this.imageHeight, @required this.ratio, @required this.logoUrl, @required this.title});
+  _MySliverAppBar(
+      {@required this.imageHeight,
+      @required this.ratio,
+      @required this.logoUrl,
+      @required this.title});
 
   @override
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
     expandedHeight = imageHeight + kToolbarHeight;
     double opacity = 0;
-    if(shrinkOffset < (expandedHeight - minExtent + 50)) {
+    if (shrinkOffset < (expandedHeight - minExtent + 50)) {
       opacity = 0;
     } else {
       opacity = 1;
@@ -224,12 +222,17 @@ class _MySliverAppBar extends SliverPersistentHeaderDelegate {
               Center(
                 child: Opacity(
                   opacity: opacity,
-                  child: Text(
-                    this.title,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w700,
-                      fontSize: 23,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 40),
+                    child: Text(
+                      this.title,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 22,
+                      ),
                     ),
                   ),
                 ),
@@ -264,9 +267,11 @@ class _MySliverAppBar extends SliverPersistentHeaderDelegate {
 
   int calculateWidthLogoByRatio(BuildContext context, String ratio) {
     var imageRatioSplit = ratio.split(":");
-    int imageWidth = MediaQuery.of(context).size.width ~/ 2 ;
-    if(imageRatioSplit.length > 1) {
-      imageWidth = imageHeight * int.parse(imageRatioSplit[0]) ~/ int.parse(imageRatioSplit[1]);
+    int imageWidth = MediaQuery.of(context).size.width ~/ 2;
+    if (imageRatioSplit.length > 1) {
+      imageWidth = imageHeight *
+          int.parse(imageRatioSplit[0]) ~/
+          int.parse(imageRatioSplit[1]);
     }
     if (imageWidth >= MediaQuery.of(context).size.width) {
       imageWidth = (MediaQuery.of(context).size.width - 30).toInt();
@@ -274,31 +279,44 @@ class _MySliverAppBar extends SliverPersistentHeaderDelegate {
     return imageWidth;
   }
 
-  Widget widgetLogoBook(BuildContext context, String logoUrl, double imageWidth) {
+  Widget widgetLogoBook(
+      BuildContext context, String logoUrl, double imageWidth) {
     String tag = "logoBook";
     return Hero(
       tag: tag,
       child: GestureDetector(
         onTap: () {
-          Navigator.push(context, PageRouteBuilder(opaque: false, pageBuilder: (_,ab,c) {
-            return ImageFullScreen(tag: tag, imageUrl: logoUrl);
-          }));
+          Navigator.push(
+              context,
+              PageRouteBuilder(
+                  opaque: false,
+                  pageBuilder: (_, ab, c) {
+                    return ImageFullScreen(tag: tag, imageUrl: logoUrl);
+                  }));
         },
         child: Container(
           width: imageWidth,
           height: imageHeight,
           child: Card(
-              semanticContainer: true,
-              elevation: 10,
-              clipBehavior: Clip.antiAliasWithSaveLayer,
-              shape: RoundedRectangleBorder(
-                side: BorderSide(color: Colors.grey, width: 1),
-                borderRadius: BorderRadius.circular(5),
+            semanticContainer: true,
+            elevation: 10,
+            clipBehavior: Clip.antiAliasWithSaveLayer,
+            shape: RoundedRectangleBorder(
+              side: BorderSide(color: Colors.grey, width: 1),
+              borderRadius: BorderRadius.circular(5),
+            ),
+            child: CachedNetworkImage(
+              fit: BoxFit.fill,
+              errorWidget: (context, url, error) => Icon(
+                Icons.error_outline,
+                color: Colors.red,
+                size: 28,
               ),
-              child: Image.network(
-                logoUrl,
-                fit: BoxFit.fill,
-              )),
+              imageUrl: logoUrl,
+              width: 80,
+              height: 80,
+            ),
+          ),
         ),
       ),
     );
@@ -313,7 +331,6 @@ class _MySliverAppBar extends SliverPersistentHeaderDelegate {
   @override
   bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) => true;
 }
-
 
 class HideScrollEffectBehavior extends ScrollBehavior {
   @override
