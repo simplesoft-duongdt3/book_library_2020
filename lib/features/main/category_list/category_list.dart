@@ -103,7 +103,7 @@ class _CategoryListBodyState extends State<CategoryListBody> {
 
   Widget _horizontalListView(CategoryBookItemsEntity item) {
     return Container(
-      height: MediaQuery.of(context).size.width / 2.5 * 1.5 + 20,
+      height: MediaQuery.of(context).size.width / 2.5 + 50,
       child: Column(
         children: <Widget>[
           Padding(
@@ -113,6 +113,11 @@ class _CategoryListBodyState extends State<CategoryListBody> {
               children: <Widget>[
                 Text(
                   item.category.name,
+                  style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold
+                  ),
                 ),
                 InkWell(
                     onTap: () {
@@ -124,7 +129,7 @@ class _CategoryListBodyState extends State<CategoryListBody> {
                             categoryName: item.category.name),
                       );
                     },
-                    child: Icon(Icons.more_vert)),
+                    child: Icon(Icons.navigate_next)),
               ],
             ),
           ),
@@ -152,6 +157,7 @@ class _CategoryListBodyState extends State<CategoryListBody> {
       },
       child: Container(
         width: MediaQuery.of(context).size.width / 2.5,
+        height: MediaQuery.of(context).size.width / 2.5,
         margin: EdgeInsets.all(8),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5.0),
@@ -159,47 +165,61 @@ class _CategoryListBodyState extends State<CategoryListBody> {
         child: ClipRRect(
           clipBehavior: Clip.antiAlias,
           borderRadius: BorderRadius.circular(5),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: Stack(
             children: <Widget>[
               CachedNetworkImage(
                 errorWidget: (context, url, error) =>
                     Icon(Icons.error_outline, color: Colors.red, size: 28,),
                 imageUrl: bookEntity.thumbUrl,
                 width: MediaQuery.of(context).size.width / 2.5,
-                height: MediaQuery.of(context).size.width / 2.5 * 1.5 / 2,
+                height: MediaQuery.of(context).size.width / 2.5,
                 fit: BoxFit.fill,
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 5.0,
-                  horizontal: 5.0
+              Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.center,
+                    end: Alignment.bottomCenter,
+                    colors: [Colors.transparent, Colors.black],
+                    stops: [0.0, 1],
+                  )
                 ),
-                child: Text(
-                  bookEntity.name,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold
-                  ),
-                ),
-              ),
-
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                    vertical: 5.0,
-                    horizontal: 5.0
-                ),
-                child: Text(
-                  bookEntity.author,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                      fontSize: 13,
-                      color: Color.fromRGBO(135, 135, 135, 1.0)
-                  ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 5.0,
+                        horizontal: 5.0
+                      ),
+                      child: Text(
+                        bookEntity.name,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: 13,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 5.0,
+                          horizontal: 5.0
+                      ),
+                      child: Text(
+                        bookEntity.author,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                            fontSize: 13,
+                            color: Colors.white
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
