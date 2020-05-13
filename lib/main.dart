@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 
 import 'common/crash_reporting/crash_report.dart';
 import 'common/crash_reporting/crash_report_app_runner.dart';
+import 'common/network/dio.dart';
 import 'data/models/language.dart';
 import 'data/repo/book_repository.dart';
 import 'data/repo/language_repository.dart';
@@ -89,6 +90,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: getAliceNavigatorKey(),
       title: "Book Library",
       theme: ThemeData(
         primarySwatch: Colors.pink,

@@ -102,13 +102,13 @@ dependencies:
 
   # keyboard_visibility
   # https://pub.dev/packages/keyboard_visibility
-  keyboard_visibility: ^0.5.6
+  # keyboard_visibility: ^0.5.6
 
     #IMEI
   #https://pub.dev/packages/imei_plugin
   #imei_plugin: ^1.1.0
   #shared_preferences https://pub.dev/packages/shared_preferences
-  shared_preferences: ^0.5.6+3
+  shared_preferences: ^0.5.7+2
 
   # Icon
   # https://materialdesignicons.com/
